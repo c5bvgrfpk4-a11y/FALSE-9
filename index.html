@@ -2155,6 +2155,7 @@ AFRAME.registerComponent(
    to show the VR button.
 ===================================================== */
 
+<script>
 document
   .getElementById("scene")
   .addEventListener(
@@ -2168,6 +2169,8 @@ document
 
     }
   );
+</script>
+
 <div id="aframeTest" style="color:lime;position:fixed;top:60px;left:20px;z-index:99999;font-size:24px;">
 A-FRAME CHECKING...
 </div>
@@ -2183,7 +2186,11 @@ setTimeout(function () {
   }
 }, 2000);
 </script>
-</script>
-<h1 style="color:white;position:fixed;top:20px;left:20px;z-index:99999;">FALSE 9 TEST</h1>
+
+<h1 style="color:white;position:fixed;top:20px;left:20px;z-index:99999;">
+FALSE 9 TEST
+</h1>
+
 </body>
 </html>
+  
