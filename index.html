@@ -2168,7 +2168,21 @@ document
 
     }
   );
+<div id="aframeTest" style="color:lime;position:fixed;top:60px;left:20px;z-index:99999;font-size:24px;">
+A-FRAME CHECKING...
+</div>
 
+<script>
+setTimeout(function () {
+  const test = document.getElementById("aframeTest");
+
+  if (window.AFRAME) {
+    test.innerHTML = "A-FRAME WORKING ✓";
+  } else {
+    test.innerHTML = "A-FRAME NOT LOADING ✗";
+  }
+}, 2000);
+</script>
 </script>
 <h1 style="color:white;position:fixed;top:20px;left:20px;z-index:99999;">FALSE 9 TEST</h1>
 </body>
