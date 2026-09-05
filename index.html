@@ -6,278 +6,165 @@
 
 <title>FALSE 9</title>
 
-<!-- A-FRAME -->
 <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
 
 <style>
-  body {
-    margin: 0;
-    overflow: hidden;
-    background: #050505;
-    font-family: Arial, sans-serif;
-  }
+html, body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #050505;
+  font-family: Arial, sans-serif;
+}
 
-  /* =========================
-     FALSE 9 LOADING SCREEN
-  ========================== */
+#loadingScreen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at center, #181818 0%, #050505 75%);
+  color: white;
+}
 
-  #loadingScreen {
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background:
-      radial-gradient(circle at center, #151515 0%, #050505 70%);
-    color: white;
-  }
+#loadingScreen h1 {
+  font-size: clamp(48px, 10vw, 80px);
+  margin: 0;
+  letter-spacing: 8px;
+}
 
-  #loadingScreen h1 {
-    font-size: 72px;
-    margin: 0;
-    letter-spacing: 8px;
-  }
+#loadingScreen p {
+  opacity: .75;
+  font-size: 18px;
+  margin: 20px 0 35px;
+  letter-spacing: 2px;
+}
 
-  #loadingScreen p {
-    opacity: .7;
-    font-size: 18px;
-    margin-bottom: 35px;
-  }
+#teamButtons {
+  display: flex;
+  gap: 25px;
+}
 
-  #teamButtons {
-    display: flex;
-    gap: 25px;
-  }
+.teamButton {
+  width: 220px;
+  height: 150px;
+  border: 3px solid white;
+  background: #111;
+  color: white;
+  font-size: 28px;
+  font-weight: bold;
+  border-radius: 15px;
+  cursor: pointer;
+}
 
-  .teamButton {
-    width: 220px;
-    height: 150px;
-    border: 3px solid white;
-    background: #111;
-    color: white;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-    border-radius: 15px;
-  }
+#homeButton {
+  border-color: #e53935;
+}
 
-  #homeButton {
-    border-color: #e53935;
-  }
+#awayButton {
+  border-color: #2196f3;
+}
 
-  #awayButton {
-    border-color: #2196f3;
-  }
-
-  .teamButton:active {
-    transform: scale(.96);
-  }
+.teamButton:active {
+  transform: scale(.96);
+}
 </style>
 </head>
 
 <body>
 
-<!-- =========================
-     TEAM SELECTION SCREEN
-========================== -->
-
 <div id="loadingScreen">
-
   <h1>FALSE 9</h1>
-
   <p>CHOOSE YOUR TEAM</p>
 
   <div id="teamButtons">
-
-    <button
-      class="teamButton"
-      id="homeButton"
-      onclick="chooseTeam('home')">
-
-      HOME
-
-    </button>
-
-    <button
-      class="teamButton"
-      id="awayButton"
-      onclick="chooseTeam('away')">
-
-      AWAY
-
-    </button>
-
+    <button class="teamButton" id="homeButton">HOME</button>
+    <button class="teamButton" id="awayButton">AWAY</button>
   </div>
-
 </div>
 
 
-<!-- =========================
-     A-FRAME VR SCENE
-
-     IMPORTANT:
-     vr-mode-ui enabled means
-     the VR goggles button
-     should appear in Quest Browser.
-========================== -->
-
 <a-scene
   id="scene"
-
   vr-mode-ui="enabled: true"
-
-  renderer="
-    antialias: true;
-    colorManagement: true;
-    physicallyCorrectLights: true;
-  "
-
-  background="color: #87b8df"
-
   loading-screen="enabled: false"
+  renderer="antialias: true; colorManagement: true"
+  background="color: #9bc8ea">
 
-  cursor="rayOrigin: mouse"
-
-  game-world>
-
-
-  <!-- =========================
-       LIGHTING
-  ========================== -->
+  <!-- LIGHTING -->
 
   <a-entity
-    light="
-      type: directional;
-      intensity: 2.2;
-      castShadow: true
-    "
+    light="type: directional; intensity: 2"
     position="-30 50 20">
   </a-entity>
 
   <a-entity
-    light="
-      type: ambient;
-      intensity: 1.2
-    ">
+    light="type: ambient; intensity: 1.1">
   </a-entity>
 
 
-  <!-- =========================
-       CAMERA RIG
+  <!-- CAMERA / PLAYER -->
 
-       HOME SPAWNS ON ONE SIDE
-       AWAY SPAWNS ON OTHER SIDE
-  ========================== -->
-
-  <a-entity
-    id="rig"
-    position="0 1.6 25">
+  <a-entity id="rig" position="0 1.6 25">
 
     <a-camera
       id="camera"
       position="0 0 0"
-      look-controls>
+      look-controls="enabled: true"
+      wasd-controls="enabled: true">
 
     </a-camera>
 
 
-    <!-- LEFT CONTROLLER -->
+    <!-- LEFT VR CONTROLLER -->
 
     <a-entity
       id="leftController"
-
-      laser-controls="hand: left"
-
-      foot-controller="
-        foot: left;
-        controller: left;
-      ">
+      laser-controls="hand: left">
 
       <a-entity
         id="leftFoot"
-        position="0 -1.15 -0.25">
-
-        <!-- SOCK -->
-
-        <a-cylinder
-          color="#111111"
-          radius="0.11"
-          height="0.42"
-          position="0 0.28 0"
-          rotation="90 0 0">
-        </a-cylinder>
-
-
-        <!-- RED CLEAT BODY -->
+        position="-0.18 -1.1 -0.45">
 
         <a-box
-          color="#e31919"
-          width="0.28"
+          width="0.32"
           height="0.18"
-          depth="0.62"
-          position="0 0 0"
-          bevelled-box>
+          depth="0.65"
+          color="#df1717">
         </a-box>
-
-
-        <!-- TOE -->
 
         <a-sphere
-          color="#f21b1b"
-          radius="0.15"
-          scale="1 .65 1.35"
-          position="0 0 -0.25">
+          radius="0.16"
+          scale="1 .65 1.4"
+          position="0 0 -0.27"
+          color="#ef2020">
         </a-sphere>
 
-
-        <!-- HEEL -->
-
         <a-box
-          color="#c91010"
-          width="0.28"
-          height="0.16"
-          depth="0.18"
-          position="0 0 0.28">
-        </a-box>
-
-
-        <!-- BLACK SOLE -->
-
-        <a-box
-          color="#111111"
-          width="0.30"
+          width="0.34"
           height="0.07"
-          depth="0.64"
-          position="0 -0.12 0">
-        </a-box>
-
-
-        <!-- LACES -->
-
-        <a-box
-          color="#ffffff"
-          width="0.17"
-          height="0.025"
-          depth="0.035"
-          position="0 0.105 -0.08">
+          depth="0.68"
+          position="0 -0.12 0"
+          color="#111">
         </a-box>
 
         <a-box
-          color="#ffffff"
-          width="0.17"
+          width="0.20"
           height="0.025"
-          depth="0.035"
-          position="0 0.105 0.03">
+          depth="0.04"
+          position="0 0.10 -0.10"
+          color="#ffffff">
         </a-box>
 
         <a-box
-          color="#ffffff"
-          width="0.17"
+          width="0.20"
           height="0.025"
-          depth="0.035"
-          position="0 0.105 0.14">
+          depth="0.04"
+          position="0 0.10 0.03"
+          color="#ffffff">
         </a-box>
 
       </a-entity>
@@ -285,100 +172,52 @@
     </a-entity>
 
 
-    <!-- RIGHT CONTROLLER -->
+    <!-- RIGHT VR CONTROLLER -->
 
     <a-entity
       id="rightController"
-
-      laser-controls="hand: right"
-
-      foot-controller="
-        foot: right;
-        controller: right;
-      ">
+      laser-controls="hand: right">
 
       <a-entity
         id="rightFoot"
-        position="0 -1.15 -0.25">
-
-        <!-- SOCK -->
-
-        <a-cylinder
-          color="#111111"
-          radius="0.11"
-          height="0.42"
-          position="0 0.28 0"
-          rotation="90 0 0">
-        </a-cylinder>
-
-
-        <!-- RED CLEAT BODY -->
+        position="0.18 -1.1 -0.45">
 
         <a-box
-          color="#e31919"
-          width="0.28"
+          width="0.32"
           height="0.18"
-          depth="0.62"
-          position="0 0 0">
+          depth="0.65"
+          color="#df1717">
         </a-box>
-
-
-        <!-- TOE -->
 
         <a-sphere
-          color="#f21b1b"
-          radius="0.15"
-          scale="1 .65 1.35"
-          position="0 0 -0.25">
+          radius="0.16"
+          scale="1 .65 1.4"
+          position="0 0 -0.27"
+          color="#ef2020">
         </a-sphere>
 
-
-        <!-- HEEL -->
-
         <a-box
-          color="#c91010"
-          width="0.28"
-          height="0.16"
-          depth="0.18"
-          position="0 0 0.28">
-        </a-box>
-
-
-        <!-- BLACK SOLE -->
-
-        <a-box
-          color="#111111"
-          width="0.30"
+          width="0.34"
           height="0.07"
-          depth="0.64"
-          position="0 -0.12 0">
-        </a-box>
-
-
-        <!-- LACES -->
-
-        <a-box
-          color="#ffffff"
-          width="0.17"
-          height="0.025"
-          depth="0.035"
-          position="0 0.105 -0.08">
+          depth="0.68"
+          position="0 -0.12 0"
+          color="#111">
         </a-box>
 
         <a-box
-          color="#ffffff"
-          width="0.17"
+          width="0.20"
           height="0.025"
-          depth="0.035"
-          position="0 0.105 0.03">
+          depth="0.04"
+          position="0 0.10 -0.10"
+          color="#ffffff">
         </a-box>
 
         <a-box
-          color="#ffffff"
-          width="0.17"
+          width="0.20"
           height="0.025"
-          depth="0.035"
-          position="0 0.105 0.14">
+          depth="0.04"
+          position="0 0.10 0.03"
+          color="#ffffff">
         </a-box>
 
       </a-entity>
@@ -388,135 +227,61 @@
   </a-entity>
 
 
-  <!-- =========================
-       GRASS FIELD
-
-       LARGE 3X STYLE FIELD
-  ========================== -->
+  <!-- FIELD -->
 
   <a-plane
-    id="pitch"
     rotation="-90 0 0"
     width="108"
     height="68"
     position="0 0 0"
     color="#2f7d32">
-
   </a-plane>
 
 
   <!-- GRASS STRIPES -->
 
-  <a-plane
-    rotation="-90 0 0"
-    width="108"
-    height="8"
-    position="0 0.005 -25"
-    color="#347f35">
-  </a-plane>
-
-  <a-plane
-    rotation="-90 0 0"
-    width="108"
-    height="8"
-    position="0 0.005 -9"
-    color="#347f35">
-  </a-plane>
-
-  <a-plane
-    rotation="-90 0 0"
-    width="108"
-    height="8"
-    position="0 0.005 9"
-    color="#347f35">
-  </a-plane>
-
-  <a-plane
-    rotation="-90 0 0"
-    width="108"
-    height="8"
-    position="0 0.005 25"
-    color="#347f35">
-  </a-plane>
+  <a-plane rotation="-90 0 0" width="108" height="8" position="0 0.005 -25" color="#347f35"></a-plane>
+  <a-plane rotation="-90 0 0" width="108" height="8" position="0 0.005 -9" color="#347f35"></a-plane>
+  <a-plane rotation="-90 0 0" width="108" height="8" position="0 0.005 9" color="#347f35"></a-plane>
+  <a-plane rotation="-90 0 0" width="108" height="8" position="0 0.005 25" color="#347f35"></a-plane>
 
 
-  <!-- =========================
-       FIELD LINES
-  ========================== -->
+  <!-- FIELD LINES -->
 
   <a-entity id="fieldLines"></a-entity>
 
 
-  <!-- =========================
-       BALL
-  ========================== -->
+  <!-- BALL -->
 
   <a-sphere
     id="ball"
-
     position="0 0.42 0"
-
     radius="0.42"
-
     color="#ffffff"
-
     ball-physics>
-
   </a-sphere>
 
 
-  <!-- BALL PATTERN -->
+  <!-- GOALS -->
 
-  <a-sphere
-    position="0 0.42 0"
-    radius="0.425"
-    material="
-      color: #ffffff;
-      roughness: .7;
-    "
-    visible="false">
-  </a-sphere>
-
-
-  <!-- =========================
-       GOALS
-  ========================== -->
+  <a-entity id="northGoal" position="0 0 -34" goal></a-entity>
 
   <a-entity
-    id="homeGoal"
-    position="0 0 -34">
-
-    <a-entity goal="side: home"></a-entity>
-
-  </a-entity>
-
-
-  <a-entity
-    id="awayGoal"
+    id="southGoal"
     position="0 0 34"
-    rotation="0 180 0">
-
-    <a-entity goal="side: away"></a-entity>
-
+    rotation="0 180 0"
+    goal>
   </a-entity>
 
 
-  <!-- =========================
-       STADIUM
-  ========================== -->
+  <!-- STADIUM -->
 
   <a-entity id="stadium"></a-entity>
 
 
-  <!-- =========================
-       SCOREBOARDS
-  ========================== -->
+  <!-- NORTH SCOREBOARD -->
 
-  <!-- NORTH -->
-
-  <a-entity
-    position="0 18 -47"
-    rotation="0 0 0">
+  <a-entity position="0 18 -47">
 
     <a-box
       width="18"
@@ -527,7 +292,7 @@
 
     <a-text
       id="northScore"
-      value="HOME  0     -     0  AWAY"
+      value="HOME  0  -  0  AWAY"
       align="center"
       width="16"
       color="#ffffff"
@@ -537,7 +302,7 @@
   </a-entity>
 
 
-  <!-- SOUTH / FACES CENTER -->
+  <!-- SOUTH SCOREBOARD -->
 
   <a-entity
     position="0 18 47"
@@ -552,7 +317,7 @@
 
     <a-text
       id="southScore"
-      value="HOME  0     -     0  AWAY"
+      value="HOME  0  -  0  AWAY"
       align="center"
       width="16"
       color="#ffffff"
@@ -562,95 +327,73 @@
   </a-entity>
 
 
-  <!-- SKY -->
-
-  <a-sky
-    color="#9cccf0">
-  </a-sky>
-
+  <a-sky color="#9cccf0"></a-sky>
 
 </a-scene>
 
 
 <script>
 
-/* =====================================================
-   FALSE 9
-   MAIN GAME CODE
-===================================================== */
+/* =========================
+   TEAM SELECTION
+========================= */
 
+const loadingScreen =
+  document.getElementById("loadingScreen");
 
-/* =====================================================
-   BEVELLED BOX
-===================================================== */
+const rig =
+  document.getElementById("rig");
 
-AFRAME.registerComponent("bevelled-box", {
+document
+  .getElementById("homeButton")
+  .addEventListener("click", function () {
 
-  init: function () {
-
-    const mesh = this.el.getObject3D("mesh");
-
-  }
-
-});
-
-
-/* =====================================================
-   TEAM
-===================================================== */
-
-let selectedTeam = null;
-
-function chooseTeam(team) {
-
-  selectedTeam = team;
-
-  document.getElementById("loadingScreen").style.display = "none";
-
-  const rig = document.getElementById("rig");
-
-  if (team === "home") {
+    loadingScreen.style.display = "none";
 
     rig.setAttribute(
       "position",
       "-10 1.6 22"
     );
 
-  } else {
+  });
+
+document
+  .getElementById("awayButton")
+  .addEventListener("click", function () {
+
+    loadingScreen.style.display = "none";
 
     rig.setAttribute(
       "position",
       "10 1.6 -22"
     );
 
-  }
-
-}
+  });
 
 
-/* =====================================================
+/* =========================
    SCORE
-===================================================== */
+========================= */
 
 let homeScore = 0;
 let awayScore = 0;
 
 function updateScore() {
 
-  const score =
+  const text =
     "HOME  " +
     homeScore +
-    "     -     " +
+    "  -  " +
     awayScore +
     "  AWAY";
 
   document
     .getElementById("northScore")
-    .setAttribute("value", score);
+    .setAttribute("value", text);
 
   document
     .getElementById("southScore")
-    .setAttribute("value", score);
+    .setAttribute("value", text);
 
 }
 
@@ -698,105 +441,79 @@ function scoreGoal(team) {
 
   setTimeout(
     resetBall,
-    800
+    1000
   );
 
 }
 
 
-/* =====================================================
+/* =========================
    FIELD LINES
-===================================================== */
+========================= */
 
 window.addEventListener(
   "load",
-  () => {
+  function () {
 
-    const container =
-      document.getElementById("fieldLines");
+    const lines =
+      document.getElementById(
+        "fieldLines"
+      );
 
-
-    function line(
+    function addLine(
       width,
       depth,
       x,
       z
     ) {
 
-      const el =
+      const line =
         document.createElement(
           "a-box"
         );
 
-      el.setAttribute(
+      line.setAttribute(
         "width",
         width
       );
 
-      el.setAttribute(
+      line.setAttribute(
         "height",
-        "0.025"
+        ".025"
       );
 
-      el.setAttribute(
+      line.setAttribute(
         "depth",
         depth
       );
 
-      el.setAttribute(
+      line.setAttribute(
         "color",
         "#ffffff"
       );
 
-      el.setAttribute(
+      line.setAttribute(
         "position",
-        `${x} 0.02 ${z}`
+        x + " .02 " + z
       );
 
-      container.appendChild(el);
+      lines.appendChild(line);
 
     }
 
 
-    /* OUTSIDE BOUNDARY */
+    /* OUTER LINES */
 
-    line(
-      108,
-      .16,
-      0,
-      -34
-    );
+    addLine(108, .12, 0, -34);
+    addLine(108, .12, 0, 34);
 
-    line(
-      108,
-      .16,
-      0,
-      34
-    );
-
-    line(
-      .16,
-      68,
-      -54,
-      0
-    );
-
-    line(
-      .16,
-      68,
-      54,
-      0
-    );
+    addLine(.12, 68, -54, 0);
+    addLine(.12, 68, 54, 0);
 
 
-    /* HALF WAY LINE */
+    /* HALF WAY */
 
-    line(
-      108,
-      .12,
-      0,
-      0
-    );
+    addLine(108, .10, 0, 0);
 
 
     /* CENTER CIRCLE */
@@ -818,7 +535,7 @@ window.addEventListener(
 
     circle.setAttribute(
       "radius-outer",
-      "9.15"
+      "9.13"
     );
 
     circle.setAttribute(
@@ -828,81 +545,16 @@ window.addEventListener(
 
     circle.setAttribute(
       "position",
-      "0 0.025 0"
+      "0 .02 0"
     );
 
-    container.appendChild(circle);
+    lines.appendChild(circle);
 
 
-    /* CENTER SPOT */
-
-    const centerSpot =
-      document.createElement(
-        "a-cylinder"
-      );
-
-    centerSpot.setAttribute(
-      "radius",
-      ".12"
-    );
-
-    centerSpot.setAttribute(
-      "height",
-      ".03"
-    );
-
-    centerSpot.setAttribute(
-      "color",
-      "#ffffff"
-    );
-
-    centerSpot.setAttribute(
-      "position",
-      "0 .025 0"
-    );
-
-    container.appendChild(
-      centerSpot
-    );
-
-
-    /* PENALTY AREAS */
-
-    createBoxLines(
-      -34,
-      16.5,
-      40.3
-    );
-
-    createBoxLines(
-      34,
-      16.5,
-      40.3
-    );
-
-
-    /* SMALL BOXES */
-
-    createBoxLines(
-      -34,
-      5.5,
-      18.3
-    );
-
-    createBoxLines(
-      34,
-      5.5,
-      18.3
-    );
-
-
-    /* PENALTY SPOTS */
-
-    spot(-23);
-    spot(23);
-
-
-    function spot(z) {
+    function spot(
+      x,
+      z
+    ) {
 
       const s =
         document.createElement(
@@ -916,7 +568,7 @@ window.addEventListener(
 
       s.setAttribute(
         "height",
-        ".03"
+        ".025"
       );
 
       s.setAttribute(
@@ -926,50 +578,277 @@ window.addEventListener(
 
       s.setAttribute(
         "position",
-        `0 .025 ${z}`
+        x + " .02 " + z
       );
 
-      container.appendChild(s);
+      lines.appendChild(s);
 
     }
 
 
-    function createBoxLines(
+    spot(0, 0);
+
+
+    function boxLines(
       goalZ,
       depth,
       width
     ) {
 
       const direction =
-        goalZ < 0
-          ? 1
-          : -1;
+        goalZ < 0 ? 1 : -1;
 
-      const frontZ =
+      const front =
         goalZ +
-        depth * direction;
+        direction * depth;
 
-
-      line(
+      addLine(
         width,
-        .12,
+        .10,
         0,
-        frontZ
+        front
       );
 
-      line(
-        .12,
+      addLine(
+        .10,
         depth,
         -width / 2,
-        (goalZ + frontZ) / 2
+        (goalZ + front) / 2
       );
 
-      line(
-        .12,
+      addLine(
+        .10,
         depth,
         width / 2,
-        (goalZ + frontZ) / 2
+        (goalZ + front) / 2
       );
+
+    }
+
+
+    /* PENALTY AREAS */
+
+    boxLines(
+      -34,
+      16.5,
+      40.3
+    );
+
+    boxLines(
+      34,
+      16.5,
+      40.3
+    );
+
+
+    /* SIX YARD BOXES */
+
+    boxLines(
+      -34,
+      5.5,
+      18.3
+    );
+
+    boxLines(
+      34,
+      5.5,
+      18.3
+    );
+
+
+    /* PENALTY SPOTS */
+
+    spot(0, -23);
+    spot(0, 23);
+
+  }
+);
+
+
+/* =========================
+   GOALS
+========================= */
+
+AFRAME.registerComponent(
+  "goal",
+  {
+
+    init: function () {
+
+      const width = 7.2;
+      const height = 2.3;
+      const depth = 2.2;
+
+      const goal =
+        this.el;
+
+      function bar(
+        x,
+        y,
+        z,
+        w,
+        h,
+        d,
+        color
+      ) {
+
+        const piece =
+          document.createElement(
+            "a-box"
+          );
+
+        piece.setAttribute(
+          "position",
+          x + " " + y + " " + z
+        );
+
+        piece.setAttribute(
+          "width",
+          w
+        );
+
+        piece.setAttribute(
+          "height",
+          h
+        );
+
+        piece.setAttribute(
+          "depth",
+          d
+        );
+
+        piece.setAttribute(
+          "color",
+          color || "#ffffff"
+        );
+
+        goal.appendChild(piece);
+
+      }
+
+
+      /* POSTS */
+
+      bar(
+        -width / 2,
+        height / 2,
+        0,
+        .18,
+        height,
+        .18
+      );
+
+      bar(
+        width / 2,
+        height / 2,
+        0,
+        .18,
+        height,
+        .18
+      );
+
+
+      /* CROSSBAR */
+
+      bar(
+        0,
+        height,
+        0,
+        width,
+        .18,
+        .18
+      );
+
+
+      /* BACK FRAME */
+
+      bar(
+        0,
+        height,
+        depth,
+        width,
+        .18,
+        .18
+      );
+
+      bar(
+        -width / 2,
+        height / 2,
+        depth,
+        .18,
+        height,
+        .18
+      );
+
+      bar(
+        width / 2,
+        height / 2,
+        depth,
+        .18,
+        height,
+        .18
+      );
+
+
+      /* SIDE CONNECTORS */
+
+      bar(
+        -width / 2,
+        height,
+        depth / 2,
+        .18,
+        .18,
+        depth
+      );
+
+      bar(
+        width / 2,
+        height,
+        depth / 2,
+        .18,
+        .18,
+        depth
+      );
+
+
+      /* NET */
+
+      for (
+        let x = -width / 2;
+        x <= width / 2;
+        x += .6
+      ) {
+
+        bar(
+          x,
+          height / 2,
+          depth,
+          .025,
+          height,
+          .025,
+          "#dddddd"
+        );
+
+      }
+
+
+      for (
+        let y = .2;
+        y <= height;
+        y += .35
+      ) {
+
+        bar(
+          0,
+          y,
+          depth,
+          width,
+          .025,
+          .025,
+          "#dddddd"
+        );
+
+      }
 
     }
 
@@ -977,29 +856,26 @@ window.addEventListener(
 );
 
 
-/* =====================================================
+/* =========================
    STADIUM
-===================================================== */
+========================= */
 
 AFRAME.registerComponent(
-  "game-world",
+  "stadium-maker",
   {
 
     init: function () {
 
       const stadium =
-        document.getElementById(
-          "stadium"
-        );
-
+        this.el;
 
       function block(
         x,
         y,
         z,
-        w,
-        h,
-        d,
+        width,
+        height,
+        depth,
         color
       ) {
 
@@ -1010,22 +886,22 @@ AFRAME.registerComponent(
 
         b.setAttribute(
           "position",
-          `${x} ${y} ${z}`
+          x + " " + y + " " + z
         );
 
         b.setAttribute(
           "width",
-          w
+          width
         );
 
         b.setAttribute(
           "height",
-          h
+          height
         );
 
         b.setAttribute(
           "depth",
-          d
+          depth
         );
 
         b.setAttribute(
@@ -1038,14 +914,7 @@ AFRAME.registerComponent(
       }
 
 
-      /*
-        CONTINUOUS STANDS
-
-        These go directly around
-        the field with no giant
-        empty gaps.
-      */
-
+      /* CONTINUOUS STANDS */
 
       for (
         let tier = 0;
@@ -1054,154 +923,114 @@ AFRAME.registerComponent(
       ) {
 
         const y =
-          1.2 +
-          tier * 1.15;
+          1 +
+          tier * 1.2;
 
         const offset =
           tier * 1.7;
 
-
-        /* LONG SIDES */
-
         block(
           0,
           y,
-          -39 - offset,
+          -38 - offset,
           125 + tier * 4,
-          1.1,
-          4.5,
+          1.15,
+          4.8,
           tier % 2
-            ? "#54268f"
+            ? "#4d2584"
             : "#6838aa"
         );
 
         block(
           0,
           y,
-          39 + offset,
+          38 + offset,
           125 + tier * 4,
-          1.1,
-          4.5,
+          1.15,
+          4.8,
           tier % 2
-            ? "#54268f"
+            ? "#4d2584"
             : "#6838aa"
         );
 
-
-        /* END SIDES */
-
         block(
-          -59 - offset,
+          -58 - offset,
           y,
           0,
-          4.5,
-          1.1,
+          4.8,
+          1.15,
           82 + tier * 4,
           tier % 2
-            ? "#54268f"
+            ? "#4d2584"
             : "#6838aa"
         );
 
         block(
-          59 + offset,
+          58 + offset,
           y,
           0,
-          4.5,
-          1.1,
+          4.8,
+          1.15,
           82 + tier * 4,
           tier % 2
-            ? "#54268f"
+            ? "#4d2584"
             : "#6838aa"
         );
 
       }
 
 
-      /*
-        WALKWAY RINGS
-      */
+      /* ROOF */
+
+      const roofY = 27;
 
       block(
         0,
-        10,
-        -52,
-        145,
-        1,
-        3,
-        "#222"
-      );
-
-      block(
-        0,
-        10,
-        52,
-        145,
-        1,
-        3,
-        "#222"
-      );
-
-
-      /*
-        STADIUM ROOF
-
-        Open in the middle
-        like a modern enclosed
-        stadium.
-      */
-
-      const roofHeight = 27;
-
-
-      block(
-        0,
-        roofHeight,
-        -64,
+        roofY,
+        -63,
         155,
         2,
         20,
-        "#191919"
+        "#171717"
       );
 
       block(
         0,
-        roofHeight,
-        64,
+        roofY,
+        63,
         155,
         2,
         20,
-        "#191919"
+        "#171717"
       );
 
       block(
         -73,
-        roofHeight,
+        roofY,
         0,
         20,
         2,
         110,
-        "#191919"
+        "#171717"
       );
 
       block(
         73,
-        roofHeight,
+        roofY,
         0,
         20,
         2,
         110,
-        "#191919"
+        "#171717"
       );
 
 
-      /*
-        ROOF LIGHT STRIPS
-      */
+      /* LIGHT STRIPS */
 
       block(
         0,
         25.5,
-        -53,
+        -52,
         130,
         .5,
         1,
@@ -1211,483 +1040,32 @@ AFRAME.registerComponent(
       block(
         0,
         25.5,
-        53,
+        52,
         130,
         .5,
         1,
         "#eeeeff"
       );
 
-
     }
 
   }
 );
 
 
-/* =====================================================
-   GOALS
-===================================================== */
+/* ADD STADIUM COMPONENT */
 
-AFRAME.registerComponent(
-  "goal",
-  {
+document
+  .getElementById("stadium")
+  .setAttribute(
+    "stadium-maker",
+    ""
+  );
 
-    schema: {
 
-      side: {
-        default: "home"
-      }
-
-    },
-
-
-    init: function () {
-
-      const goal =
-        this.el;
-
-
-      const width =
-        7.2;
-
-      const height =
-        2.3;
-
-      const depth =
-        2.2;
-
-      const poleRadius =
-        .09;
-
-
-      function pole(
-        x,
-        y,
-        z,
-        w,
-        h,
-        d
-      ) {
-
-        const p =
-          document.createElement(
-            "a-box"
-          );
-
-        p.setAttribute(
-          "color",
-          "#ffffff"
-        );
-
-        p.setAttribute(
-          "width",
-          w
-        );
-
-        p.setAttribute(
-          "height",
-          h
-        );
-
-        p.setAttribute(
-          "depth",
-          d
-        );
-
-        p.setAttribute(
-          "position",
-          `${x} ${y} ${z}`
-        );
-
-        goal.appendChild(p);
-
-      }
-
-
-      /*
-        CONNECTED GOAL FRAME
-      */
-
-
-      /* POSTS */
-
-      pole(
-        -width / 2,
-        height / 2,
-        0,
-        poleRadius * 2,
-        height,
-        poleRadius * 2
-      );
-
-      pole(
-        width / 2,
-        height / 2,
-        0,
-        poleRadius * 2,
-        height,
-        poleRadius * 2
-      );
-
-
-      /* CROSSBAR */
-
-      pole(
-        0,
-        height,
-        0,
-        width,
-        poleRadius * 2,
-        poleRadius * 2
-      );
-
-
-      /* BACK TOP */
-
-      pole(
-        0,
-        height,
-        depth,
-        width,
-        poleRadius * 2,
-        poleRadius * 2
-      );
-
-
-      /* BACK POSTS */
-
-      pole(
-        -width / 2,
-        height / 2,
-        depth,
-        poleRadius * 2,
-        height,
-        poleRadius * 2
-      );
-
-      pole(
-        width / 2,
-        height / 2,
-        depth,
-        poleRadius * 2,
-        height,
-        poleRadius * 2
-      );
-
-
-      /* TOP SIDE CONNECTORS */
-
-      pole(
-        -width / 2,
-        height,
-        depth / 2,
-        poleRadius * 2,
-        poleRadius * 2,
-        depth
-      );
-
-      pole(
-        width / 2,
-        height,
-        depth / 2,
-        poleRadius * 2,
-        poleRadius * 2,
-        depth
-      );
-
-
-      /*
-        NET
-
-        Visible grid.
-      */
-
-      const net =
-        document.createElement(
-          "a-entity"
-        );
-
-      goal.appendChild(net);
-
-
-      function netLine(
-        x,
-        y,
-        z,
-        w,
-        h,
-        d
-      ) {
-
-        const n =
-          document.createElement(
-            "a-box"
-          );
-
-        n.setAttribute(
-          "color",
-          "#eeeeee"
-        );
-
-        n.setAttribute(
-          "opacity",
-          ".45"
-        );
-
-        n.setAttribute(
-          "transparent",
-          "true"
-        );
-
-        n.setAttribute(
-          "width",
-          w
-        );
-
-        n.setAttribute(
-          "height",
-          h
-        );
-
-        n.setAttribute(
-          "depth",
-          d
-        );
-
-        n.setAttribute(
-          "position",
-          `${x} ${y} ${z}`
-        );
-
-        net.appendChild(n);
-
-      }
-
-
-      /*
-        BACK NET VERTICALS
-      */
-
-      for (
-        let x =
-          -width / 2;
-        x <= width / 2;
-        x += .6
-      ) {
-
-        netLine(
-          x,
-          height / 2,
-          depth,
-          .025,
-          height,
-          .025
-        );
-
-      }
-
-
-      /*
-        BACK NET HORIZONTALS
-      */
-
-      for (
-        let y = 0;
-        y <= height;
-        y += .35
-      ) {
-
-        netLine(
-          0,
-          y,
-          depth,
-          width,
-          .025,
-          .025
-        );
-
-      }
-
-
-      /*
-        SIDE NETS
-      */
-
-      for (
-        let z = 0;
-        z <= depth;
-        z += .45
-      ) {
-
-        netLine(
-          -width / 2,
-          height / 2,
-          z,
-          .025,
-          height,
-          .025
-        );
-
-        netLine(
-          width / 2,
-          height / 2,
-          z,
-          .025,
-          height,
-          .025
-        );
-
-      }
-
-    }
-
-  }
-);
-
-
-/* =====================================================
-   FOOT CONTROLLERS
-===================================================== */
-
-AFRAME.registerComponent(
-  "foot-controller",
-  {
-
-    schema: {
-
-      foot: {
-        default: "left"
-      },
-
-      controller: {
-        default: "left"
-      }
-
-    },
-
-
-    init: function () {
-
-      this.lastWorldPosition =
-        new THREE.Vector3();
-
-      this.velocity =
-        new THREE.Vector3();
-
-    },
-
-
-    tick: function (
-      time,
-      delta
-    ) {
-
-      const foot =
-        document.getElementById(
-          this.data.foot +
-          "Foot"
-        );
-
-      const controller =
-        this.el.object3D;
-
-
-      /*
-        Controller position
-        becomes foot position.
-
-        We project the foot
-        downward so your hands
-        control feet on the ground.
-      */
-
-
-      const target =
-        controller.position.clone();
-
-
-      /*
-        Left/right separation
-      */
-
-      if (
-        this.data.foot === "left"
-      ) {
-
-        target.x -= .18;
-
-      } else {
-
-        target.x += .18;
-
-      }
-
-
-      /*
-        FOOT BELOW CONTROLLER
-      */
-
-      target.y =
-        -1.1;
-
-
-      target.z -= .35;
-
-
-      foot.object3D.position.lerp(
-        target,
-        .35
-      );
-
-
-      /*
-        Foot rotation follows
-        controller rotation.
-      */
-
-      foot.object3D.rotation.y =
-        controller.rotation.y;
-
-
-      /*
-        Calculate foot speed
-        for kicking.
-      */
-
-      const current =
-        new THREE.Vector3();
-
-      foot.object3D.getWorldPosition(
-        current
-      );
-
-      if (delta > 0) {
-
-        this.velocity
-          .subVectors(
-            current,
-            this.lastWorldPosition
-          )
-          .multiplyScalar(
-            1000 / delta
-          );
-
-      }
-
-      this.lastWorldPosition.copy(
-        current
-      );
-
-    }
-
-  }
-);
-
-
-/* =====================================================
+/* =========================
    BALL PHYSICS
-===================================================== */
+========================= */
 
 AFRAME.registerComponent(
   "ball-physics",
@@ -1698,11 +1076,9 @@ AFRAME.registerComponent(
       this.velocity =
         new THREE.Vector3();
 
-      this.radius =
-        .42;
+      this.radius = .42;
 
-      this.lastKick =
-        0;
+      this.lastKick = 0;
 
     },
 
@@ -1722,17 +1098,13 @@ AFRAME.registerComponent(
         );
 
 
-      /*
-        GRAVITY
-      */
+      /* GRAVITY */
 
       this.velocity.y -=
         9.8 * dt;
 
 
-      /*
-        MOVE BALL
-      */
+      /* MOVE */
 
       ball.position.addScaledVector(
         this.velocity,
@@ -1740,9 +1112,7 @@ AFRAME.registerComponent(
       );
 
 
-      /*
-        GROUND
-      */
+      /* GROUND */
 
       if (
         ball.position.y <
@@ -1761,46 +1131,22 @@ AFRAME.registerComponent(
 
         }
 
-        /*
-          Slow rolling
-        */
+        /* SLOW BALL */
 
-        this.velocity.x *=
-          .992;
-
-        this.velocity.z *=
-          .992;
+        this.velocity.x *= .985;
+        this.velocity.z *= .985;
 
       }
 
 
-      /*
-        AIR DRAG
-      */
+      /* AIR DRAG */
 
       this.velocity.multiplyScalar(
-        .998
+        .997
       );
 
 
-      /*
-        KICK DETECTION
-      */
-
-      this.checkFoot(
-        "leftFoot",
-        time
-      );
-
-      this.checkFoot(
-        "rightFoot",
-        time
-      );
-
-
-      /*
-        FIELD WALLS
-      */
+      /* FIELD SIDES */
 
       if (
         ball.position.x < -53.5
@@ -1810,7 +1156,7 @@ AFRAME.registerComponent(
           -53.5;
 
         this.velocity.x *=
-          -.65;
+          -.6;
 
       }
 
@@ -1822,223 +1168,27 @@ AFRAME.registerComponent(
           53.5;
 
         this.velocity.x *=
-          -.65;
+          -.6;
 
       }
 
 
-      /*
-        GOAL / END LINE
-      */
+      /* GOALS */
 
-      this.goalCollision(
-        ball
-      );
-
-
-      /*
-        Rotate ball
-      */
-
-      ball.rotation.z +=
-        this.velocity.x * dt * 1.5;
-
-      ball.rotation.x -=
-        this.velocity.z * dt * 1.5;
-
-    },
-
-
-    checkFoot: function (
-      id,
-      time
-    ) {
-
-      const foot =
-        document.getElementById(
-          id
-        );
-
-      if (!foot) return;
-
-
-      const footPos =
-        new THREE.Vector3();
-
-      foot.object3D.getWorldPosition(
-        footPos
-      );
-
-
-      const ballPos =
-        this.el.object3D.position;
-
-
-      const dx =
-        ballPos.x -
-        footPos.x;
-
-      const dy =
-        ballPos.y -
-        footPos.y;
-
-      const dz =
-        ballPos.z -
-        footPos.z;
-
-
-      const distance =
-        Math.sqrt(
-          dx * dx +
-          dy * dy +
-          dz * dz
-        );
-
-
-      if (
-        distance <
-        .72
-      ) {
-
-        /*
-          Direction FROM FOOT
-          TO BALL
-
-          This makes the ball
-          go wherever you hit
-          it from.
-        */
-
-        const direction =
-          new THREE.Vector3(
-            dx,
-            Math.max(
-              .05,
-              dy
-            ),
-            dz
-          ).normalize();
-
-
-        /*
-          Find foot movement
-        */
-
-        const controller =
-          id === "leftFoot"
-            ? document.getElementById(
-                "leftController"
-              )
-            : document.getElementById(
-                "rightController"
-              );
-
-
-        let power = 4;
-
-
-        if (controller) {
-
-          const component =
-            controller.components[
-              "foot-controller"
-            ];
-
-          if (component) {
-
-            power +=
-              Math.min(
-                component.velocity.length() *
-                1.2,
-                16
-              );
-
-          }
-
-        }
-
-
-        /*
-          Kick cooldown
-        */
-
-        if (
-          time -
-          this.lastKick >
-          120
-        ) {
-
-          this.velocity
-            .copy(direction)
-            .multiplyScalar(power);
-
-
-          /*
-            Add controller movement
-          */
-
-          if (
-            controller
-          ) {
-
-            const component =
-              controller.components[
-                "foot-controller"
-              ];
-
-            if (
-              component
-            ) {
-
-              this.velocity.addScaledVector(
-                component.velocity,
-                .35
-              );
-
-            }
-
-          }
-
-
-          this.lastKick =
-            time;
-
-        }
-
-      }
-
-    },
-
-
-    goalCollision: function (
-      ball
-    ) {
-
-      /*
-        Goal dimensions
-      */
-
-      const goalWidth =
-        7.2 / 2;
+      const halfGoal =
+        3.6;
 
       const goalHeight =
         2.3;
 
 
-      /*
-        NORTH GOAL
-      */
-
       if (
-        ball.position.z <
-        -34
+        ball.position.z < -34
       ) {
 
         if (
-          Math.abs(
-            ball.position.x
-          ) <
-          goalWidth - .25
+          Math.abs(ball.position.x) <
+          halfGoal - .2
           &&
           ball.position.y <
           goalHeight
@@ -2061,27 +1211,20 @@ AFRAME.registerComponent(
             -33.5;
 
           this.velocity.z *=
-            -.7;
+            -.65;
 
         }
 
       }
 
 
-      /*
-        SOUTH GOAL
-      */
-
       if (
-        ball.position.z >
-        34
+        ball.position.z > 34
       ) {
 
         if (
-          Math.abs(
-            ball.position.x
-          ) <
-          goalWidth - .25
+          Math.abs(ball.position.x) <
+          halfGoal - .2
           &&
           ball.position.y <
           goalHeight
@@ -2104,93 +1247,58 @@ AFRAME.registerComponent(
             33.5;
 
           this.velocity.z *=
-            -.7;
+            -.65;
 
         }
 
       }
 
 
-      /*
-        BACK OF NET
-        BALL BOUNCES
-      */
+      /* BACK OF NET */
 
       if (
-        ball.position.z <
-        -36.2
+        ball.position.z < -36.1
       ) {
 
         ball.position.z =
-          -36.2;
+          -36.1;
 
         this.velocity.z *=
-          -.45;
+          -.4;
 
       }
 
       if (
-        ball.position.z >
-        36.2
+        ball.position.z > 36.1
       ) {
 
         ball.position.z =
-          36.2;
+          36.1;
 
         this.velocity.z *=
-          -.45;
+          -.4;
 
       }
+
+
+      /* BALL ROTATION */
+
+      ball.rotation.z +=
+        this.velocity.x *
+        dt *
+        1.5;
+
+      ball.rotation.x -=
+        this.velocity.z *
+        dt *
+        1.5;
 
     }
 
   }
 );
 
-
-/* =====================================================
-   QUEST VR SAFETY
-
-   Make sure A-Frame is allowed
-   to show the VR button.
-===================================================== */
-
-<script>
-document
-  .getElementById("scene")
-  .addEventListener(
-    "loaded",
-    function () {
-
-      this.setAttribute(
-        "vr-mode-ui",
-        "enabled: true"
-      );
-
-    }
-  );
 </script>
-
-<div id="aframeTest" style="color:lime;position:fixed;top:60px;left:20px;z-index:99999;font-size:24px;">
-A-FRAME CHECKING...
-</div>
-
-<script>
-setTimeout(function () {
-  const test = document.getElementById("aframeTest");
-
-  if (window.AFRAME) {
-    test.innerHTML = "A-FRAME WORKING ✓";
-  } else {
-    test.innerHTML = "A-FRAME NOT LOADING ✗";
-  }
-}, 2000);
-</script>
-
-<h1 style="color:white;position:fixed;top:20px;left:20px;z-index:99999;">
-FALSE 9 TEST
-</h1>
 
 </body>
 </html>
-  
