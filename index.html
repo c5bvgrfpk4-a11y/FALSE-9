@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -28,45 +29,48 @@ html, body {
   align-items: center;
   justify-content: center;
 
-  background:
-    radial-gradient(circle at center,
-    #241047 0%,
-    #080812 55%,
-    #000 100%);
-
   color: white;
+
+  background:
+    radial-gradient(
+      circle at center,
+      #241343 0%,
+      #090611 55%,
+      #000000 100%
+    );
 }
 
 #startScreen h1 {
   margin: 0;
-  font-size: clamp(50px, 10vw, 95px);
-  letter-spacing: 10px;
+  font-size: clamp(55px, 11vw, 110px);
+  letter-spacing: 12px;
 
   text-shadow:
-    0 0 20px #8b55ff,
-    0 0 60px #5522aa;
+    0 0 15px #9a61ff,
+    0 0 45px #6633bb;
 }
 
 #startScreen p {
-  margin: 20px 0 35px;
-  letter-spacing: 4px;
-  opacity: .8;
+  margin: 15px 0 35px;
+  letter-spacing: 5px;
+  opacity: .75;
 }
 
 #teamButtons {
   display: flex;
-  gap: 20px;
+  gap: 25px;
 }
 
 .teamButton {
-  width: 200px;
-  height: 120px;
+  width: 220px;
+  height: 130px;
 
-  border-radius: 15px;
+  border-radius: 16px;
+
   background: #111;
   color: white;
 
-  font-size: 26px;
+  font-size: 28px;
   font-weight: bold;
 
   cursor: pointer;
@@ -79,10 +83,20 @@ html, body {
 #awayButton {
   border: 3px solid #3388ff;
 }
+
+.teamButton:active {
+  transform: scale(.96);
+}
 </style>
+
 </head>
 
 <body>
+
+
+<!-- =========================================
+     START SCREEN
+========================================= -->
 
 <div id="startScreen">
 
@@ -109,432 +123,852 @@ html, body {
 </div>
 
 
-<a-scene
-  id="scene"
-  vr-mode-ui="enabled: true"
-  loading-screen="enabled: false"
-  renderer="antialias: true; colorManagement: true"
-  background="color: #02030a">
 
-  <!-- SKY -->
+<!-- =========================================
+     A-FRAME SCENE
+========================================= -->
+
+<a-scene
+
+  id="scene"
+
+  vr-mode-ui="enabled: true"
+
+  loading-screen="enabled: false"
+
+  renderer="
+    antialias: true;
+    colorManagement: true;
+    physicallyCorrectLights: true
+  "
+
+  background="color: #02040c">
+
+
+
+  <!-- =====================================
+       SKY
+  ====================================== -->
 
   <a-sky
     id="sky"
-    color="#02030a">
+    color="#02040c">
   </a-sky>
 
 
-  <!-- LIGHTING -->
+
+  <!-- =====================================
+       LIGHTING
+  ====================================== -->
 
   <a-entity
     id="ambientLight"
-    light="type: ambient; intensity: 0.45; color: #b9c8ff">
+    light="
+      type: ambient;
+      intensity: .35;
+      color: #9daeff
+    ">
   </a-entity>
+
 
   <a-entity
     id="sunLight"
-    position="-30 40 20"
-    light="type: directional; intensity: 1.2; color: #dce8ff">
+    position="-25 40 25"
+    light="
+      type: directional;
+      intensity: .55;
+      color: #b8c8ff
+    ">
   </a-entity>
 
 
-  <!-- CAMERA RIG -->
+
+  <!-- =====================================
+       CAMERA RIG
+  ====================================== -->
 
   <a-entity
     id="rig"
     position="0 1.6 25">
 
+
+
+    <!-- CAMERA -->
+
     <a-camera
+
       id="camera"
+
       position="0 0 0"
+
       look-controls
+
       wasd-controls>
+
+      <!-- DESKTOP CURSOR -->
+
+      <a-cursor
+        raycaster="objects: .clickable"
+        cursor="fuse: false">
+      </a-cursor>
+
     </a-camera>
 
 
-    <!-- LEFT CONTROLLER -->
+
+    <!-- =================================
+         LEFT VR CONTROLLER
+    ================================== -->
 
     <a-entity
+
       id="leftController"
-      laser-controls="hand: left">
+
+      laser-controls="hand: left"
+
+      cursor="rayOrigin: entity; fuse: false"
+
+      raycaster="
+        objects: .clickable;
+        far: 20
+      ">
+
+
+
+      <!-- =============================
+           LEFT BOOT
+      ============================== -->
 
       <a-entity
-        id="leftBoot"
-        position="-0.20 -1.05 -0.45">
+        id="leftFoot"
+        position="-0.20 -1.05 -0.45"
+        boot-kicker="side: left">
+
+
+
+        <!-- SOLE -->
 
         <a-box
-          width=".32"
-          height=".18"
-          depth=".55"
-          color="#d71920">
+
+          width=".42"
+          height=".07"
+          depth=".82"
+
+          position="0 -.14 -.02"
+
+          color="#101010">
+
         </a-box>
+
+
+
+        <!-- MAIN FOOT -->
+
+        <a-box
+
+          width=".37"
+          height=".22"
+          depth=".56"
+
+          position="0 0 .06"
+
+          color="#d71919">
+
+        </a-box>
+
+
+
+        <!-- TOE -->
 
         <a-sphere
-          radius=".17"
-          scale="1 .7 1.45"
-          position="0 0 -.25"
-          color="#ef2525">
+
+          radius=".22"
+
+          scale="1 .62 1.35"
+
+          position="0 -.015 -.32"
+
+          color="#f02222">
+
         </a-sphere>
 
+
+
+        <!-- HEEL -->
+
         <a-box
-          width=".36"
-          height=".07"
-          depth=".68"
-          position="0 -.13 0"
-          color="#111">
+
+          width=".38"
+          height=".22"
+          depth=".22"
+
+          position="0 -.01 .30"
+
+          color="#b70f0f">
+
         </a-box>
+
+
+
+        <!-- TONGUE -->
+
+        <a-box
+
+          width=".24"
+          height=".08"
+          depth=".34"
+
+          position="0 .16 -.02"
+
+          rotation="-18 0 0"
+
+          color="#c41414">
+
+        </a-box>
+
+
 
         <!-- LACES -->
 
         <a-box
-          width=".21"
+          width=".27"
           height=".025"
           depth=".035"
-          position="0 .10 -.15"
+          position="0 .205 -.18"
           color="#ffffff">
         </a-box>
 
         <a-box
-          width=".21"
+          width=".27"
           height=".025"
           depth=".035"
-          position="0 .10 -.05"
+          position="0 .205 -.09"
           color="#ffffff">
         </a-box>
 
         <a-box
-          width=".21"
+          width=".27"
           height=".025"
           depth=".035"
-          position="0 .10 .05"
+          position="0 .205 0"
           color="#ffffff">
         </a-box>
 
-      </a-entity>
-
-    </a-entity>
-
-
-    <!-- RIGHT CONTROLLER -->
-
-    <a-entity
-      id="rightController"
-      laser-controls="hand: right">
-
-      <a-entity
-        id="rightBoot"
-        position=".20 -1.05 -0.45">
-
         <a-box
-          width=".32"
-          height=".18"
-          depth=".55"
-          color="#d71920">
+          width=".25"
+          height=".025"
+          depth=".035"
+          position="0 .205 .09"
+          color="#ffffff">
         </a-box>
 
-        <a-sphere
-          radius=".17"
-          scale="1 .7 1.45"
-          position="0 0 -.25"
-          color="#ef2525">
-        </a-sphere>
 
-        <a-box
-          width=".36"
-          height=".07"
-          depth=".68"
-          position="0 -.13 0"
+
+        <!-- STUDS -->
+
+        <a-cylinder
+          radius=".045"
+          height=".08"
+          position="-.12 -.21 -.25"
           color="#111">
-        </a-box>
+        </a-cylinder>
 
-        <!-- LACES -->
+        <a-cylinder
+          radius=".045"
+          height=".08"
+          position=".12 -.21 -.25"
+          color="#111">
+        </a-cylinder>
 
-        <a-box
-          width=".21"
-          height=".025"
-          depth=".035"
-          position="0 .10 -.15"
-          color="#ffffff">
-        </a-box>
+        <a-cylinder
+          radius=".045"
+          height=".08"
+          position="-.12 -.21 .22"
+          color="#111">
+        </a-cylinder>
 
-        <a-box
-          width=".21"
-          height=".025"
-          depth=".035"
-          position="0 .10 -.05"
-          color="#ffffff">
-        </a-box>
+        <a-cylinder
+          radius=".045"
+          height=".08"
+          position=".12 -.21 .22"
+          color="#111">
+        </a-cylinder>
 
-        <a-box
-          width=".21"
-          height=".025"
-          depth=".035"
-          position="0 .10 .05"
-          color="#ffffff">
-        </a-box>
 
       </a-entity>
 
-    </a-entity>
 
 
-    <!-- PLAYER MENU -->
+      <!-- =================================
+           THREE LINE BUTTON
 
-    <a-entity
-      id="menuAnchor"
-      position="0 0 -2.5">
-
-      <!-- THREE LINES -->
+           ATTACHED TO LEFT CONTROLLER
+      ================================== -->
 
       <a-entity
+
         id="menuButton"
+
         class="clickable"
-        position="1.25 1.0 0">
+
+        position="0 .13 -.10"
+
+        menu-toggle>
+
+
 
         <a-box
-          width=".55"
-          height=".08"
-          depth=".08"
-          position="0 .18 0"
+
+          width=".42"
+          height=".055"
+          depth=".06"
+
+          position="0 .13 0"
+
           color="#ffffff">
+
         </a-box>
 
+
         <a-box
-          width=".55"
-          height=".08"
-          depth=".08"
+
+          width=".42"
+          height=".055"
+          depth=".06"
+
           position="0 0 0"
+
           color="#ffffff">
+
         </a-box>
 
+
         <a-box
-          width=".55"
-          height=".08"
-          depth=".08"
-          position="0 -.18 0"
+
+          width=".42"
+          height=".055"
+          depth=".06"
+
+          position="0 -.13 0"
+
           color="#ffffff">
+
         </a-box>
+
 
       </a-entity>
 
 
-      <!-- MENU -->
+
+      <!-- =================================
+           LEFT CONTROLLER MENU
+
+           THIS MOVES WITH LEFT HAND
+      ================================== -->
 
       <a-entity
+
         id="vrMenu"
-        visible="false"
-        position="0 0 0">
+
+        position="0 .65 -.45"
+
+        rotation="-20 0 0"
+
+        visible="false">
+
+
+
+        <!-- BACKGROUND -->
 
         <a-box
-          width="3.8"
-          height="4.8"
-          depth=".08"
-          color="#10101c"
-          opacity=".97"
-          position="0 .4 0">
+
+          width="3.6"
+          height="5.0"
+          depth=".06"
+
+          color="#11111b"
+
+          opacity=".97">
+
         </a-box>
 
 
+
+        <!-- TITLE -->
+
         <a-text
-          value="FALSE 9 MENU"
+
+          value="FALSE 9"
+
           align="center"
-          width="4"
+
+          width="3.5"
+
           color="#ffffff"
-          position="0 2.25 .08">
+
+          position="0 2.15 .08">
+
         </a-text>
 
 
+
+        <!-- LOBBY -->
+
         <a-text
+
           value="LOBBY CODE"
+
           align="center"
-          width="3"
-          color="#c6b3ff"
+
+          width="2.5"
+
+          color="#bcaaff"
+
           position="0 1.65 .08">
+
         </a-text>
 
 
         <a-text
+
           id="lobbyCodeText"
+
           value="A-123456"
+
           align="center"
-          width="3"
+
+          width="3.4"
+
           color="#ffffff"
+
           position="0 1.25 .08">
+
         </a-text>
+
 
 
         <!-- NEW CODE -->
 
         <a-box
+
           id="newCodeButton"
+
           class="clickable"
+
           width="2.3"
-          height=".45"
+          height=".42"
           depth=".12"
-          position="0 .75 .10"
-          color="#6633bb">
+
+          color="#6633bb"
+
+          position="0 .78 .10">
+
         </a-box>
 
+
         <a-text
+
           value="NEW CODE"
+
           align="center"
-          width="2.5"
+
+          width="2.4"
+
           color="white"
-          position="0 .75 .18">
+
+          position="0 .78 .18">
+
         </a-text>
+
 
 
         <!-- TIME -->
 
         <a-text
+
           value="TIME"
+
           align="center"
+
           width="2"
-          color="#c6b3ff"
-          position="0 .15 .08">
+
+          color="#bcaaff"
+
+          position="0 .22 .08">
+
         </a-text>
 
 
+
+        <!-- DAY -->
+
         <a-box
+
           id="dayButton"
+
           class="clickable"
+
           width=".9"
-          height=".42"
+          height=".38"
           depth=".12"
-          position="-1.2 -.30 .10"
-          color="#d69f22">
+
+          color="#d69f22"
+
+          position="-1.15 -.25 .10">
+
         </a-box>
 
+
         <a-text
+
           value="DAY"
+
           align="center"
+
           width="1"
+
           color="white"
-          position="-1.2 -.30 .18">
+
+          position="-1.15 -.25 .18">
+
         </a-text>
 
 
+
+        <!-- SUNSET -->
+
         <a-box
+
           id="sunsetButton"
+
           class="clickable"
+
           width=".9"
-          height=".42"
+          height=".38"
           depth=".12"
-          position="0 -.30 .10"
-          color="#bb6535">
+
+          color="#b85d32"
+
+          position="0 -.25 .10">
+
         </a-box>
 
+
         <a-text
+
           value="SUNSET"
+
           align="center"
+
           width="1"
+
           color="white"
-          position="0 -.30 .18">
+
+          position="0 -.25 .18">
+
         </a-text>
 
+
+
+        <!-- NIGHT -->
 
         <a-box
+
           id="nightButton"
+
           class="clickable"
+
           width=".9"
-          height=".42"
+          height=".38"
           depth=".12"
-          position="1.2 -.30 .10"
-          color="#263f88">
+
+          color="#263f88"
+
+          position="1.15 -.25 .10">
+
         </a-box>
 
+
         <a-text
+
           value="NIGHT"
+
           align="center"
+
           width="1"
+
           color="white"
-          position="1.2 -.30 .18">
+
+          position="1.15 -.25 .18">
+
         </a-text>
+
 
 
         <!-- WEATHER -->
 
         <a-text
+
           value="WEATHER"
+
           align="center"
-          width="2"
-          color="#c6b3ff"
-          position="0 -.95 .08">
+
+          width="2.5"
+
+          color="#bcaaff"
+
+          position="0 -.82 .08">
+
         </a-text>
 
 
+
+        <!-- NORMAL -->
+
         <a-box
+
           id="normalButton"
+
           class="clickable"
+
           width=".9"
-          height=".42"
+          height=".38"
           depth=".12"
-          position="-1.2 -1.40 .10"
-          color="#444">
+
+          color="#555555"
+
+          position="-1.15 -1.30 .10">
+
         </a-box>
 
+
         <a-text
+
           value="NORMAL"
+
           align="center"
+
           width="1"
+
           color="white"
-          position="-1.2 -1.40 .18">
+
+          position="-1.15 -1.30 .18">
+
         </a-text>
 
 
+
+        <!-- RAIN -->
+
         <a-box
+
           id="rainButton"
+
           class="clickable"
+
           width=".9"
-          height=".42"
+          height=".38"
           depth=".12"
-          position="0 -1.40 .10"
-          color="#356fba">
+
+          color="#356fba"
+
+          position="0 -1.30 .10">
+
         </a-box>
 
+
         <a-text
+
           value="RAIN"
+
           align="center"
+
           width="1"
+
           color="white"
-          position="0 -1.40 .18">
+
+          position="0 -1.30 .18">
+
         </a-text>
 
+
+
+        <!-- SNOW -->
 
         <a-box
+
           id="snowButton"
+
           class="clickable"
+
           width=".9"
-          height=".42"
+          height=".38"
           depth=".12"
-          position="1.2 -1.40 .10"
-          color="#aaa">
+
+          color="#aaaaaa"
+
+          position="1.15 -1.30 .10">
+
         </a-box>
 
+
         <a-text
+
           value="SNOW"
+
           align="center"
+
           width="1"
+
           color="white"
-          position="1.2 -1.40 .18">
+
+          position="1.15 -1.30 .18">
+
         </a-text>
+
 
       </a-entity>
 
+
     </a-entity>
+
+
+
+    <!-- =================================
+         RIGHT CONTROLLER
+    ================================== -->
+
+    <a-entity
+
+      id="rightController"
+
+      laser-controls="hand: right"
+
+      cursor="rayOrigin: entity; fuse: false"
+
+      raycaster="
+        objects: .clickable;
+        far: 20
+      ">
+
+
+
+      <!-- RIGHT BOOT -->
+
+      <a-entity
+
+        id="rightFoot"
+
+        position=".20 -1.05 -.45"
+
+        boot-kicker="side: right">
+
+
+
+        <a-box
+          width=".42"
+          height=".07"
+          depth=".82"
+          position="0 -.14 -.02"
+          color="#101010">
+        </a-box>
+
+
+        <a-box
+          width=".37"
+          height=".22"
+          depth=".56"
+          position="0 0 .06"
+          color="#d71919">
+        </a-box>
+
+
+        <a-sphere
+          radius=".22"
+          scale="1 .62 1.35"
+          position="0 -.015 -.32"
+          color="#f02222">
+        </a-sphere>
+
+
+        <a-box
+          width=".38"
+          height=".22"
+          depth=".22"
+          position="0 -.01 .30"
+          color="#b70f0f">
+        </a-box>
+
+
+        <a-box
+          width=".24"
+          height=".08"
+          depth=".34"
+          position="0 .16 -.02"
+          rotation="-18 0 0"
+          color="#c41414">
+        </a-box>
+
+
+        <a-box
+          width=".27"
+          height=".025"
+          depth=".035"
+          position="0 .205 -.18"
+          color="white">
+        </a-box>
+
+        <a-box
+          width=".27"
+          height=".025"
+          depth=".035"
+          position="0 .205 -.09"
+          color="white">
+        </a-box>
+
+        <a-box
+          width=".27"
+          height=".025"
+          depth=".035"
+          position="0 .205 0"
+          color="white">
+        </a-box>
+
+        <a-box
+          width=".25"
+          height=".025"
+          depth=".035"
+          position="0 .205 .09"
+          color="white">
+        </a-box>
+
+
+      </a-entity>
+
+
+    </a-entity>
+
 
   </a-entity>
 
 
-  <!-- FIELD -->
+
+  <!-- =====================================
+       FIELD
+  ====================================== -->
 
   <a-plane
+
     rotation="-90 0 0"
+
     width="108"
+
     height="68"
-    position="0 0 0"
-    color="#276d31">
+
+    color="#256b2d">
+
   </a-plane>
+
 
 
   <!-- GRASS STRIPES -->
@@ -544,7 +978,7 @@ html, body {
     width="108"
     height="8"
     position="0 .005 -26"
-    color="#317c38">
+    color="#2d7833">
   </a-plane>
 
   <a-plane
@@ -552,7 +986,7 @@ html, body {
     width="108"
     height="8"
     position="0 .005 -10"
-    color="#286b30">
+    color="#256b2d">
   </a-plane>
 
   <a-plane
@@ -560,7 +994,7 @@ html, body {
     width="108"
     height="8"
     position="0 .005 6"
-    color="#317c38">
+    color="#2d7833">
   </a-plane>
 
   <a-plane
@@ -568,8 +1002,9 @@ html, body {
     width="108"
     height="8"
     position="0 .005 22"
-    color="#286b30">
+    color="#256b2d">
   </a-plane>
+
 
 
   <!-- FIELD LINES -->
@@ -577,52 +1012,78 @@ html, body {
   <a-entity id="fieldLines"></a-entity>
 
 
-  <!-- BALL -->
+
+  <!-- =====================================
+       BALL
+  ====================================== -->
 
   <a-entity
+
     id="ball"
-    position="0 .28 0"
+
+    position="0 .30 0"
+
     ball-physics>
 
+
+
+    <!-- WHITE BASE -->
+
     <a-sphere
-      radius=".28"
-      color="#f8f8f8">
+
+      radius=".30"
+
+      color="#f5f5f5">
+
     </a-sphere>
+
+
 
     <!-- BLACK PATCHES -->
 
     <a-sphere
-      radius=".285"
-      scale=".32 .32 .08"
-      position="0 .17 -.22"
+      radius=".303"
+      scale=".36 .36 .10"
+      position="0 .18 -.23"
       color="#111">
     </a-sphere>
 
     <a-sphere
-      radius=".285"
-      scale=".08 .32 .32"
+      radius=".303"
+      scale=".36 .10 .36"
       position=".22 0 0"
       color="#111">
     </a-sphere>
 
     <a-sphere
-      radius=".285"
-      scale=".08 .32 .32"
+      radius=".303"
+      scale=".36 .10 .36"
       position="-.22 0 0"
       color="#111">
     </a-sphere>
 
     <a-sphere
-      radius=".285"
-      scale=".32 .08 .32"
-      position="0 -.22 0"
+      radius=".303"
+      scale=".36 .36 .10"
+      position="0 -.18 .23"
       color="#111">
     </a-sphere>
+
+    <a-sphere
+      radius=".303"
+      scale=".18 .42 .18"
+      position="0 -.23 0"
+      color="#111">
+    </a-sphere>
+
 
   </a-entity>
 
 
-  <!-- GOALS -->
+
+  <!-- =====================================
+       GOALS
+  ====================================== -->
 
   <a-entity
     position="0 0 -34"
@@ -636,7 +1097,10 @@ html, body {
   </a-entity>
 
 
-  <!-- STADIUM -->
+
+  <!-- =====================================
+       STADIUM
+  ====================================== -->
 
   <a-entity
     id="stadium"
@@ -644,461 +1108,916 @@ html, body {
   </a-entity>
 
 
-  <!-- SCOREBOARD -->
 
-  <a-entity
-    position="0 18 -47">
+  <!-- =====================================
+       FLOODLIGHT VISUALS
+  ====================================== -->
+
+  <a-entity id="floodlights"></a-entity>
+
+
+
+  <!-- =====================================
+       SCOREBOARD
+  ====================================== -->
+
+  <a-entity position="0 16 -46">
 
     <a-box
-      width="18"
+      width="19"
       height="6"
       depth=".6"
-      color="#080810">
+      color="#080812">
     </a-box>
 
     <a-text
+
       id="scoreText"
+
       value="HOME  0  -  0  AWAY"
+
       align="center"
-      width="15"
-      color="#ffffff"
+
+      width="16"
+
+      color="white"
+
       position="0 0 .35">
+
     </a-text>
 
   </a-entity>
 
 
-  <!-- WEATHER -->
+
+  <!-- WEATHER ATTACHED TO RIG -->
 
   <a-entity id="weather"></a-entity>
+
 
 
 </a-scene>
 
 
+
 <script>
 
-/* =================================================
+
+/* =========================================
+   GLOBAL GAME STATE
+========================================= */
+
+let homeScore = 0;
+let awayScore = 0;
+
+let lobbyCode = "";
+
+
+/* =========================================
    LOBBY CODE
-================================================= */
+========================================= */
 
 function generateLobbyCode() {
 
-  const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const letters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
   const letter =
     letters[
       Math.floor(
-        Math.random() * letters.length
+        Math.random() *
+        letters.length
       )
     ];
 
   const number =
     Math.floor(
       100000 +
-      Math.random() * 900000
+      Math.random() *
+      900000
     );
 
   return letter + "-" + number;
 }
 
-let lobbyCode = generateLobbyCode();
+
+function updateLobbyCode() {
+
+  document
+    .getElementById("lobbyCodeText")
+    .setAttribute(
+      "value",
+      lobbyCode
+    );
+
+}
 
 
-/* =================================================
-   WEATHER COMPONENT
-================================================= */
 
-AFRAME.registerComponent("weather-drop", {
+/* =========================================
+   SCORE
+========================================= */
 
-  schema: {
-    speed: {
-      default: 12
-    }
-  },
+function updateScore() {
 
-  tick: function (time, delta) {
+  document
+    .getElementById("scoreText")
+    .setAttribute(
+      "value",
 
-    const p =
-      this.el.object3D.position;
+      "HOME  " +
+      homeScore +
+      "  -  " +
+      awayScore +
+      "  AWAY"
+    );
 
-    p.y -=
-      this.data.speed *
-      delta /
-      1000;
+}
 
-    if (p.y < 0) {
-      p.y = 25;
-    }
+
+function scoreGoal(team) {
+
+  if (
+    window.goalCooldown
+  ) {
+    return;
+  }
+
+  window.goalCooldown = true;
+
+
+  if (
+    team === "home"
+  ) {
+    homeScore++;
+  }
+
+  else {
+    awayScore++;
+  }
+
+
+  updateScore();
+
+
+  setTimeout(
+    function () {
+
+      resetBall();
+
+      window.goalCooldown =
+        false;
+
+    },
+    1200
+  );
+
+}
+
+
+function resetBall() {
+
+  const ball =
+    document.getElementById(
+      "ball"
+    );
+
+  ball.object3D.position.set(
+    0,
+    .30,
+    0
+  );
+
+
+  const physics =
+    ball.components[
+      "ball-physics"
+    ];
+
+
+  if (
+    physics
+  ) {
+
+    physics.velocity.set(
+      0,
+      0,
+      0
+    );
 
   }
 
-});
+}
 
 
-/* =================================================
-   BALL PHYSICS
-================================================= */
 
-AFRAME.registerComponent("ball-physics", {
+/* =========================================
+   MENU TOGGLE COMPONENT
 
-  init: function () {
+   CLICK THE THREE LINES
+   OR PRESS LEFT CONTROLLER BUTTON
+========================================= */
 
-    this.velocity =
-      new THREE.Vector3();
+AFRAME.registerComponent(
+  "menu-toggle",
+  {
 
-    this.radius = .28;
+    init: function () {
 
-  },
+      const menu =
+        document.getElementById(
+          "vrMenu"
+        );
 
-  tick: function (time, delta) {
 
-    const dt =
-      Math.min(
-        delta / 1000,
-        .03
+      const toggle =
+        function () {
+
+          const current =
+            menu.getAttribute(
+              "visible"
+            );
+
+
+          menu.setAttribute(
+            "visible",
+            !current
+          );
+
+        };
+
+
+      this.el.addEventListener(
+        "click",
+        toggle
       );
 
-    const ball =
-      this.el.object3D;
+
+      const controller =
+        document.getElementById(
+          "leftController"
+        );
 
 
-    /* GRAVITY */
-
-    this.velocity.y -=
-      9.8 * dt;
-
-
-    /* MOVE */
-
-    ball.position.addScaledVector(
-      this.velocity,
-      dt
-    );
+      controller.addEventListener(
+        "abuttondown",
+        toggle
+      );
 
 
-    /* GROUND */
+      controller.addEventListener(
+        "xbuttondown",
+        toggle
+      );
 
-    if (
-      ball.position.y <
-      this.radius
-    ) {
+    }
 
-      ball.position.y =
-        this.radius;
+  }
+);
 
-      if (
-        this.velocity.y < 0
-      ) {
-        this.velocity.y *= -.28;
+
+
+/* =========================================
+   WEATHER MOVEMENT
+========================================= */
+
+AFRAME.registerComponent(
+  "weather-particle",
+  {
+
+    schema: {
+
+      type: {
+        default: "rain"
       }
 
-      this.velocity.x *= .987;
-      this.velocity.z *= .987;
-
-    }
+    },
 
 
-    /* AIR DRAG */
-
-    this.velocity.multiplyScalar(
-      .998
-    );
-
-
-    /* FIELD WALLS */
-
-    if (
-      ball.position.x < -53.5
+    tick: function(
+      time,
+      delta
     ) {
-      ball.position.x = -53.5;
-      this.velocity.x *= -.65;
+
+      const pos =
+        this.el.object3D.position;
+
+
+      if (
+        this.data.type ===
+        "rain"
+      ) {
+
+        pos.y -=
+          delta *
+          .018;
+
+      }
+
+      else {
+
+        pos.y -=
+          delta *
+          .003;
+
+
+        pos.x +=
+          Math.sin(
+            time *
+            .003 +
+            pos.z
+          ) *
+          .002;
+
+      }
+
+
+      if (
+        pos.y < -2
+      ) {
+
+        pos.y =
+          14 +
+          Math.random() *
+          8;
+
+      }
+
     }
-
-    if (
-      ball.position.x > 53.5
-    ) {
-      ball.position.x = 53.5;
-      this.velocity.x *= -.65;
-    }
-
-    if (
-      ball.position.z < -33.7
-    ) {
-      ball.position.z = -33.7;
-      this.velocity.z *= -.65;
-    }
-
-    if (
-      ball.position.z > 33.7
-    ) {
-      ball.position.z = 33.7;
-      this.velocity.z *= -.65;
-    }
-
-
-    /* ROTATION */
-
-    ball.rotation.z +=
-      this.velocity.x *
-      dt * 2;
-
-    ball.rotation.x -=
-      this.velocity.z *
-      dt * 2;
 
   }
-
-});
-
-
-/* =================================================
-   GOAL COMPONENT
-================================================= */
-
-AFRAME.registerComponent("goal", {
-
-  init: function () {
-
-    const goal = this.el;
-
-    const width = 7.2;
-    const height = 2.3;
-    const depth = 2.2;
+);
 
 
-    function bar(
-      x, y, z,
-      w, h, d,
-      color
+
+/* =========================================
+   BOOT KICKING
+
+   WHEN BOOT GETS CLOSE TO BALL
+   BALL IS KICKED AWAY
+========================================= */
+
+AFRAME.registerComponent(
+  "boot-kicker",
+  {
+
+    init: function () {
+
+      this.lastKick = 0;
+
+      this.worldPosition =
+        new THREE.Vector3();
+
+    },
+
+
+    tick: function(
+      time
     ) {
 
-      const piece =
-        document.createElement(
-          "a-box"
+      const ball =
+        document.getElementById(
+          "ball"
         );
 
-      piece.setAttribute(
-        "position",
-        x + " " +
-        y + " " +
-        z
+
+      const ballPhysics =
+        ball.components[
+          "ball-physics"
+        ];
+
+
+      if (
+        !ballPhysics
+      ) {
+        return;
+      }
+
+
+      this.el.object3D.getWorldPosition(
+        this.worldPosition
       );
 
-      piece.setAttribute(
-        "width",
-        w
-      );
 
-      piece.setAttribute(
-        "height",
-        h
-      );
-
-      piece.setAttribute(
-        "depth",
-        d
-      );
-
-      piece.setAttribute(
-        "color",
-        color || "#ffffff"
-      );
-
-      goal.appendChild(piece);
-
-    }
+      const ballPosition =
+        ball.object3D.position;
 
 
-    bar(
-      -width / 2,
-      height / 2,
-      0,
-      .15,
-      height,
-      .15
-    );
-
-    bar(
-      width / 2,
-      height / 2,
-      0,
-      .15,
-      height,
-      .15
-    );
-
-    bar(
-      0,
-      height,
-      0,
-      width,
-      .15,
-      .15
-    );
-
-    bar(
-      0,
-      height,
-      depth,
-      width,
-      .10,
-      .10
-    );
-
-  }
-
-});
-
-
-/* =================================================
-   STADIUM
-================================================= */
-
-AFRAME.registerComponent("stadium-maker", {
-
-  init: function () {
-
-    const stadium =
-      this.el;
-
-
-    function block(
-      x, y, z,
-      w, h, d,
-      color
-    ) {
-
-      const b =
-        document.createElement(
-          "a-box"
+      const distance =
+        this.worldPosition.distanceTo(
+          ballPosition
         );
 
-      b.setAttribute(
-        "position",
-        x + " " +
-        y + " " +
-        z
+
+      if (
+        distance >
+        1.0
+      ) {
+        return;
+      }
+
+
+      if (
+        time -
+        this.lastKick <
+        350
+      ) {
+        return;
+      }
+
+
+      this.lastKick =
+        time;
+
+
+      const direction =
+        new THREE.Vector3();
+
+      direction.subVectors(
+        ballPosition,
+        this.worldPosition
       );
 
-      b.setAttribute(
-        "width",
-        w
+
+      direction.y =
+        .15;
+
+
+      if (
+        direction.length() <
+        .01
+      ) {
+
+        direction.z =
+          -1;
+
+      }
+
+
+      direction.normalize();
+
+
+      const power =
+        12;
+
+
+      ballPhysics.velocity.addScaledVector(
+        direction,
+        power
       );
 
-      b.setAttribute(
-        "height",
-        h
-      );
 
-      b.setAttribute(
-        "depth",
-        d
-      );
-
-      b.setAttribute(
-        "color",
-        color
-      );
-
-      stadium.appendChild(b);
+      ballPhysics.velocity.y +=
+        2.2;
 
     }
-
-
-    /* STANDS */
-
-    for (
-      let tier = 0;
-      tier < 12;
-      tier++
-    ) {
-
-      const y =
-        1 + tier * .9;
-
-      const expand =
-        tier * 1.4;
-
-      const color =
-        tier % 2 === 0
-          ? "#54278f"
-          : "#6d42aa";
-
-
-      block(
-        0,
-        y,
-        -38 - expand,
-        125 + expand * 2,
-        .75,
-        3,
-        color
-      );
-
-      block(
-        0,
-        y,
-        38 + expand,
-        125 + expand * 2,
-        .75,
-        3,
-        color
-      );
-
-      block(
-        -58 - expand,
-        y,
-        0,
-        3,
-        .75,
-        82 + expand * 2,
-        color
-      );
-
-      block(
-        58 + expand,
-        y,
-        0,
-        3,
-        .75,
-        82 + expand * 2,
-        color
-      );
-
-    }
-
-
-    /* ROOF */
-
-    block(
-      0,
-      25,
-      -65,
-      155,
-      2,
-      18,
-      "#151520"
-    );
-
-    block(
-      0,
-      25,
-      65,
-      155,
-      2,
-      18,
-      "#151520"
-    );
 
   }
+);
 
-});
 
 
-/* =================================================
+/* =========================================
+   BALL PHYSICS
+========================================= */
+
+AFRAME.registerComponent(
+  "ball-physics",
+  {
+
+    init: function () {
+
+      this.velocity =
+        new THREE.Vector3();
+
+      this.radius =
+        .30;
+
+    },
+
+
+    tick: function(
+      time,
+      delta
+    ) {
+
+      const dt =
+        Math.min(
+          delta / 1000,
+          .03
+        );
+
+
+      const ball =
+        this.el.object3D;
+
+
+
+      /* GRAVITY */
+
+      this.velocity.y -=
+        9.8 *
+        dt;
+
+
+
+      /* MOVE */
+
+      ball.position.addScaledVector(
+        this.velocity,
+        dt
+      );
+
+
+
+      /* GROUND */
+
+      if (
+        ball.position.y <
+        this.radius
+      ) {
+
+        ball.position.y =
+          this.radius;
+
+
+        if (
+          this.velocity.y <
+          0
+        ) {
+
+          this.velocity.y *=
+            -.28;
+
+        }
+
+
+        this.velocity.x *=
+          .986;
+
+        this.velocity.z *=
+          .986;
+
+      }
+
+
+
+      /* DRAG */
+
+      this.velocity.multiplyScalar(
+        .998
+      );
+
+
+
+      /* SIDELINES */
+
+      if (
+        ball.position.x <
+        -53.6
+      ) {
+
+        ball.position.x =
+          -53.6;
+
+        this.velocity.x *=
+          -.6;
+
+      }
+
+
+      if (
+        ball.position.x >
+        53.6
+      ) {
+
+        ball.position.x =
+          53.6;
+
+        this.velocity.x *=
+          -.6;
+
+      }
+
+
+
+      /* NORTH GOAL */
+
+      if (
+        ball.position.z <
+        -34
+      ) {
+
+        if (
+
+          Math.abs(
+            ball.position.x
+          ) < 3.4
+
+          &&
+
+          ball.position.y <
+          2.25
+
+        ) {
+
+          if (
+            ball.position.z <
+            -35.3
+          ) {
+
+            scoreGoal(
+              "away"
+            );
+
+          }
+
+        }
+
+        else {
+
+          ball.position.z =
+            -33.6;
+
+          this.velocity.z *=
+            -.6;
+
+        }
+
+      }
+
+
+
+      /* SOUTH GOAL */
+
+      if (
+        ball.position.z >
+        34
+      ) {
+
+        if (
+
+          Math.abs(
+            ball.position.x
+          ) < 3.4
+
+          &&
+
+          ball.position.y <
+          2.25
+
+        ) {
+
+          if (
+            ball.position.z >
+            35.3
+          ) {
+
+            scoreGoal(
+              "home"
+            );
+
+          }
+
+        }
+
+        else {
+
+          ball.position.z =
+            33.6;
+
+          this.velocity.z *=
+            -.6;
+
+        }
+
+      }
+
+
+
+      /* BALL ROTATION */
+
+      ball.rotation.z +=
+        this.velocity.x *
+        dt *
+        2;
+
+      ball.rotation.x -=
+        this.velocity.z *
+        dt *
+        2;
+
+    }
+
+  }
+);
+
+
+
+/* =========================================
+   GOALS
+========================================= */
+
+AFRAME.registerComponent(
+  "goal",
+  {
+
+    init: function() {
+
+      const goal =
+        this.el;
+
+      const width =
+        7.2;
+
+      const height =
+        2.3;
+
+      const depth =
+        2.2;
+
+
+      function bar(
+        x,
+        y,
+        z,
+        w,
+        h,
+        d,
+        color
+      ) {
+
+        const el =
+          document.createElement(
+            "a-box"
+          );
+
+
+        el.setAttribute(
+          "position",
+          x + " " +
+          y + " " +
+          z
+        );
+
+
+        el.setAttribute(
+          "width",
+          w
+        );
+
+
+        el.setAttribute(
+          "height",
+          h
+        );
+
+
+        el.setAttribute(
+          "depth",
+          d
+        );
+
+
+        el.setAttribute(
+          "color",
+          color ||
+          "#ffffff"
+        );
+
+
+        goal.appendChild(
+          el
+        );
+
+      }
+
+
+      /* POSTS */
+
+      bar(
+        -width / 2,
+        height / 2,
+        0,
+        .16,
+        height,
+        .16
+      );
+
+
+      bar(
+        width / 2,
+        height / 2,
+        0,
+        .16,
+        height,
+        .16
+      );
+
+
+      /* CROSSBAR */
+
+      bar(
+        0,
+        height,
+        0,
+        width,
+        .16,
+        .16
+      );
+
+
+      /* BACK */
+
+      bar(
+        0,
+        height,
+        depth,
+        width,
+        .10,
+        .10
+      );
+
+
+      bar(
+        -width / 2,
+        height / 2,
+        depth,
+        .10,
+        height,
+        .10
+      );
+
+
+      bar(
+        width / 2,
+        height / 2,
+        depth,
+        .10,
+        height,
+        .10
+      );
+
+
+      /* NET */
+
+      for (
+        let x =
+        -width / 2;
+
+        x <=
+        width / 2;
+
+        x +=
+        .45
+      ) {
+
+        bar(
+          x,
+          height / 2,
+          depth,
+          .02,
+          height,
+          .02,
+          "#dddddd"
+        );
+
+      }
+
+
+      for (
+        let y =
+        .2;
+
+        y <=
+        height;
+
+        y +=
+        .35
+      ) {
+
+        bar(
+          0,
+          y,
+          depth,
+          width,
+          .02,
+          .02,
+          "#dddddd"
+        );
+
+      }
+
+    }
+
+  }
+);
+
+
+
+/* =========================================
    FIELD LINES
-================================================= */
+========================================= */
 
 function createFieldLines() {
 
@@ -1120,6 +2039,7 @@ function createFieldLines() {
         "a-box"
       );
 
+
     el.setAttribute(
       "width",
       width
@@ -1137,26 +2057,58 @@ function createFieldLines() {
 
     el.setAttribute(
       "color",
-      "#ffffff"
+      "white"
     );
 
     el.setAttribute(
       "position",
-      x + " .02 " + z
+      x +
+      " .02 " +
+      z
     );
 
-    lines.appendChild(el);
+
+    lines.appendChild(
+      el
+    );
 
   }
 
 
-  line(108, .12, 0, -34);
-  line(108, .12, 0, 34);
+  line(
+    108,
+    .12,
+    0,
+    -34
+  );
 
-  line(.12, 68, -54, 0);
-  line(.12, 68, 54, 0);
+  line(
+    108,
+    .12,
+    0,
+    34
+  );
 
-  line(108, .10, 0, 0);
+  line(
+    .12,
+    68,
+    -54,
+    0
+  );
+
+  line(
+    .12,
+    68,
+    54,
+    0
+  );
+
+  line(
+    108,
+    .10,
+    0,
+    0
+  );
 
 
   const circle =
@@ -1164,612 +2116,887 @@ function createFieldLines() {
       "a-ring"
     );
 
+
   circle.setAttribute(
     "rotation",
     "-90 0 0"
   );
 
+
   circle.setAttribute(
     "radius-inner",
-    "9.0"
+    "9.05"
   );
+
 
   circle.setAttribute(
     "radius-outer",
-    "9.12"
+    "9.15"
   );
+
 
   circle.setAttribute(
     "color",
     "white"
   );
 
+
   circle.setAttribute(
     "position",
     "0 .02 0"
   );
 
-  lines.appendChild(circle);
+
+  lines.appendChild(
+    circle
+  );
 
 }
 
 
-/* =================================================
-   KICK SYSTEM
-================================================= */
 
-function setupKicking() {
+/* =========================================
+   STADIUM
+========================================= */
 
-  const ball =
-    document.getElementById(
-      "ball"
-    );
+AFRAME.registerComponent(
+  "stadium-maker",
+  {
 
-  const leftBoot =
-    document.getElementById(
-      "leftBoot"
-    );
+    init: function() {
 
-  const rightBoot =
-    document.getElementById(
-      "rightBoot"
-    );
+      const stadium =
+        this.el;
 
 
-  const ballPhysics =
-    ball.components[
-      "ball-physics"
-    ];
+      function block(
+        x,
+        y,
+        z,
+        width,
+        height,
+        depth,
+        color
+      ) {
+
+        const b =
+          document.createElement(
+            "a-box"
+          );
 
 
-  if (!ballPhysics) return;
-
-
-  const ballWorld =
-    new THREE.Vector3();
-
-  const bootWorld =
-    new THREE.Vector3();
-
-
-  let leftLast =
-    new THREE.Vector3();
-
-  let rightLast =
-    new THREE.Vector3();
-
-  let lastTime =
-    performance.now();
-
-
-  function checkBoot(
-    boot,
-    lastPosition,
-    dt
-  ) {
-
-    boot.object3D.getWorldPosition(
-      bootWorld
-    );
-
-    ball.object3D.getWorldPosition(
-      ballWorld
-    );
-
-
-    const velocity =
-      bootWorld.clone()
-        .sub(lastPosition)
-        .multiplyScalar(
-          1 / Math.max(dt, .001)
+        b.setAttribute(
+          "position",
+          x +
+          " " +
+          y +
+          " " +
+          z
         );
 
 
-    const distance =
-      bootWorld.distanceTo(
-        ballWorld
+        b.setAttribute(
+          "width",
+          width
+        );
+
+
+        b.setAttribute(
+          "height",
+          height
+        );
+
+
+        b.setAttribute(
+          "depth",
+          depth
+        );
+
+
+        b.setAttribute(
+          "color",
+          color
+        );
+
+
+        stadium.appendChild(
+          b
+        );
+
+      }
+
+
+
+      /* STANDS */
+
+      for (
+        let tier = 0;
+        tier < 18;
+        tier++
+      ) {
+
+        const y =
+          1 +
+          tier *
+          .65;
+
+
+        const expand =
+          tier *
+          1.25;
+
+
+        const purple =
+          tier % 2 === 0
+          ?
+          "#55298d"
+          :
+          "#6a3cab";
+
+
+        block(
+          0,
+          y,
+          -39 - expand,
+          125 +
+          expand * 2,
+          .62,
+          2.2,
+          purple
+        );
+
+
+        block(
+          0,
+          y,
+          39 + expand,
+          125 +
+          expand * 2,
+          .62,
+          2.2,
+          purple
+        );
+
+
+        block(
+          -58 - expand,
+          y,
+          0,
+          2.2,
+          .62,
+          82 +
+          expand * 2,
+          purple
+        );
+
+
+        block(
+          58 + expand,
+          y,
+          0,
+          2.2,
+          .62,
+          82 +
+          expand * 2,
+          purple
+        );
+
+      }
+
+
+
+      /* WHITE LED STRIPS */
+
+      for (
+        let level = 0;
+        level < 4;
+        level++
+      ) {
+
+        const y =
+          4 +
+          level *
+          4.5;
+
+
+        block(
+          0,
+          y,
+          -49 -
+          level * 4,
+          145,
+          .22,
+          .55,
+          "#e9e6ff"
+        );
+
+
+        block(
+          0,
+          y,
+          49 +
+          level * 4,
+          145,
+          .22,
+          .55,
+          "#e9e6ff"
+        );
+
+      }
+
+
+
+      /* ROOF */
+
+      block(
+        0,
+        26,
+        -67,
+        165,
+        1.5,
+        18,
+        "#171724"
       );
 
 
-    if (
-      distance < .65 &&
-      velocity.length() > .3
-    ) {
-
-      const direction =
-        ballWorld.clone()
-          .sub(bootWorld)
-          .normalize();
-
-
-      direction.add(
-        velocity.clone()
-          .normalize()
-          .multiplyScalar(.7)
+      block(
+        0,
+        26,
+        67,
+        165,
+        1.5,
+        18,
+        "#171724"
       );
 
-      direction.normalize();
 
-
-      ballPhysics.velocity.add(
-        direction.multiplyScalar(
-          Math.min(
-            velocity.length() * .6,
-            16
-          )
-        )
+      block(
+        -80,
+        26,
+        0,
+        18,
+        1.5,
+        120,
+        "#171724"
       );
 
-      ballPhysics.velocity.y +=
-        1.5;
+
+      block(
+        80,
+        26,
+        0,
+        18,
+        1.5,
+        120,
+        "#171724"
+      );
 
     }
 
-
-    lastPosition.copy(
-      bootWorld
-    );
-
   }
+);
 
 
-  function loop() {
 
-    const now =
-      performance.now();
+/* =========================================
+   FLOODLIGHTS
+========================================= */
 
-    const dt =
-      (now - lastTime) / 1000;
+function createFloodlights() {
 
-    lastTime = now;
-
-
-    checkBoot(
-      leftBoot,
-      leftLast,
-      dt
-    );
-
-    checkBoot(
-      rightBoot,
-      rightLast,
-      dt
+  const container =
+    document.getElementById(
+      "floodlights"
     );
 
 
-    requestAnimationFrame(
-      loop
-    );
+  const positions = [
 
-  }
+    "-45 20 -28",
+    "45 20 -28",
+    "-45 20 28",
+    "45 20 28"
+
+  ];
 
 
-  leftBoot.object3D.getWorldPosition(
-    leftLast
+  positions.forEach(
+    function(
+      position
+    ) {
+
+      const tower =
+        document.createElement(
+          "a-cylinder"
+        );
+
+
+      tower.setAttribute(
+        "radius",
+        ".4"
+      );
+
+
+      tower.setAttribute(
+        "height",
+        "18"
+      );
+
+
+      tower.setAttribute(
+        "color",
+        "#333333"
+      );
+
+
+      const p =
+        position.split(" ");
+
+
+      tower.setAttribute(
+        "position",
+
+        p[0] +
+        " 9 " +
+        p[2]
+      );
+
+
+      container.appendChild(
+        tower
+      );
+
+
+      const lamp =
+        document.createElement(
+          "a-box"
+        );
+
+
+      lamp.setAttribute(
+        "width",
+        "4"
+      );
+
+
+      lamp.setAttribute(
+        "height",
+        "1.4"
+      );
+
+
+      lamp.setAttribute(
+        "depth",
+        ".6"
+      );
+
+
+      lamp.setAttribute(
+        "color",
+        "#f7f8ff"
+      );
+
+
+      lamp.setAttribute(
+        "position",
+        position
+      );
+
+
+      container.appendChild(
+        lamp
+      );
+
+    }
   );
-
-  rightBoot.object3D.getWorldPosition(
-    rightLast
-  );
-
-
-  loop();
 
 }
 
 
-/* =================================================
-   START GAME
-================================================= */
 
-window.addEventListener(
-  "load",
-  function () {
+/* =========================================
+   WEATHER
+========================================= */
 
-    const scene =
-      document.getElementById(
-        "scene"
-      );
+function clearWeather() {
 
+  const weather =
+    document.getElementById(
+      "weather"
+    );
 
-    scene.addEventListener(
-      "loaded",
-      function () {
 
+  while (
+    weather.firstChild
+  ) {
 
-        createFieldLines();
-
-
-        /* START SCREEN */
-
-        const startScreen =
-          document.getElementById(
-            "startScreen"
-          );
-
-        const rig =
-          document.getElementById(
-            "rig"
-          );
-
-
-        document
-          .getElementById(
-            "homeButton"
-          )
-          .addEventListener(
-            "click",
-            function () {
-
-              rig.setAttribute(
-                "position",
-                "-10 1.6 22"
-              );
-
-              startScreen.style.display =
-                "none";
-
-            }
-          );
-
-
-        document
-          .getElementById(
-            "awayButton"
-          )
-          .addEventListener(
-            "click",
-            function () {
-
-              rig.setAttribute(
-                "position",
-                "10 1.6 -22"
-              );
-
-              startScreen.style.display =
-                "none";
-
-            }
-          );
-
-
-        /* MENU */
-
-        const menu =
-          document.getElementById(
-            "vrMenu"
-          );
-
-
-        document
-          .getElementById(
-            "menuButton"
-          )
-          .addEventListener(
-            "click",
-            function () {
-
-              const current =
-                menu.getAttribute(
-                  "visible"
-                );
-
-              menu.setAttribute(
-                "visible",
-                !current
-              );
-
-            }
-          );
-
-
-        /* LOBBY CODE */
-
-        const lobbyText =
-          document.getElementById(
-            "lobbyCodeText"
-          );
-
-        lobbyText.setAttribute(
-          "value",
-          lobbyCode
-        );
-
-
-        document
-          .getElementById(
-            "newCodeButton"
-          )
-          .addEventListener(
-            "click",
-            function () {
-
-              lobbyCode =
-                generateLobbyCode();
-
-              lobbyText.setAttribute(
-                "value",
-                lobbyCode
-              );
-
-            }
-          );
-
-
-        /* TIME */
-
-        function setSky(
-          color,
-          ambient,
-          sun
-        ) {
-
-          document
-            .getElementById(
-              "sky"
-            )
-            .setAttribute(
-              "color",
-              color
-            );
-
-
-          document
-            .getElementById(
-              "ambientLight"
-            )
-            .setAttribute(
-              "light",
-              "intensity",
-              ambient
-            );
-
-
-          document
-            .getElementById(
-              "sunLight"
-            )
-            .setAttribute(
-              "light",
-              "intensity",
-              sun
-            );
-
-        }
-
-
-        document
-          .getElementById(
-            "dayButton"
-          )
-          .addEventListener(
-            "click",
-            function () {
-              setSky(
-                "#78b9e8",
-                1,
-                2.5
-              );
-            }
-          );
-
-
-        document
-          .getElementById(
-            "sunsetButton"
-          )
-          .addEventListener(
-            "click",
-            function () {
-              setSky(
-                "#b45d43",
-                .65,
-                1.4
-              );
-            }
-          );
-
-
-        document
-          .getElementById(
-            "nightButton"
-          )
-          .addEventListener(
-            "click",
-            function () {
-              setSky(
-                "#02030a",
-                .45,
-                1.2
-              );
-            }
-          );
-
-
-        /* WEATHER */
-
-        const weather =
-          document.getElementById(
-            "weather"
-          );
-
-
-        function clearWeather() {
-
-          while (
-            weather.firstChild
-          ) {
-
-            weather.removeChild(
-              weather.firstChild
-            );
-
-          }
-
-        }
-
-
-        function createRain() {
-
-          clearWeather();
-
-
-          for (
-            let i = 0;
-            i < 120;
-            i++
-          ) {
-
-            const drop =
-              document.createElement(
-                "a-box"
-              );
-
-
-            drop.setAttribute(
-              "width",
-              ".015"
-            );
-
-            drop.setAttribute(
-              "height",
-              ".35"
-            );
-
-            drop.setAttribute(
-              "depth",
-              ".015"
-            );
-
-            drop.setAttribute(
-              "color",
-              "#88bbff"
-            );
-
-            drop.setAttribute(
-              "position",
-              (
-                Math.random() * 100 - 50
-              ) +
-              " " +
-              (
-                Math.random() * 25
-              ) +
-              " " +
-              (
-                Math.random() * 70 - 35
-              )
-            );
-
-            drop.setAttribute(
-              "weather-drop",
-              "speed: 15"
-            );
-
-            weather.appendChild(
-              drop
-            );
-
-          }
-
-        }
-
-
-        function createSnow() {
-
-          clearWeather();
-
-
-          for (
-            let i = 0;
-            i < 100;
-            i++
-          ) {
-
-            const flake =
-              document.createElement(
-                "a-sphere"
-              );
-
-
-            flake.setAttribute(
-              "radius",
-              ".045"
-            );
-
-            flake.setAttribute(
-              "color",
-              "white"
-            );
-
-            flake.setAttribute(
-              "position",
-              (
-                Math.random() * 100 - 50
-              ) +
-              " " +
-              (
-                Math.random() * 25
-              ) +
-              " " +
-              (
-                Math.random() * 70 - 35
-              )
-            );
-
-            flake.setAttribute(
-              "weather-drop",
-              "speed: 3"
-            );
-
-            weather.appendChild(
-              flake
-            );
-
-          }
-
-        }
-
-
-        document
-          .getElementById(
-            "normalButton"
-          )
-          .addEventListener(
-            "click",
-            clearWeather
-          );
-
-
-        document
-          .getElementById(
-            "rainButton"
-          )
-          .addEventListener(
-            "click",
-            createRain
-          );
-
-
-        document
-          .getElementById(
-            "snowButton"
-          )
-          .addEventListener(
-            "click",
-            createSnow
-          );
-
-
-        /* START KICK SYSTEM */
-
-        setupKicking();
-
-
-      }
+    weather.removeChild(
+      weather.firstChild
     );
 
   }
+
+}
+
+
+function createRain() {
+
+  clearWeather();
+
+
+  const weather =
+    document.getElementById(
+      "weather"
+    );
+
+
+  for (
+    let i = 0;
+    i < 180;
+    i++
+  ) {
+
+    const drop =
+      document.createElement(
+        "a-box"
+      );
+
+
+    drop.setAttribute(
+      "width",
+      ".012"
+    );
+
+
+    drop.setAttribute(
+      "height",
+      ".38"
+    );
+
+
+    drop.setAttribute(
+      "depth",
+      ".012"
+    );
+
+
+    drop.setAttribute(
+      "color",
+      "#8dbbff"
+    );
+
+
+    drop.setAttribute(
+      "position",
+
+      (
+        Math.random() *
+        18 - 9
+      )
+
+      +
+
+      " "
+
+      +
+
+      (
+        Math.random() *
+        22
+      )
+
+      +
+
+      " "
+
+      +
+
+      (
+        Math.random() *
+        18 - 9
+      )
+    );
+
+
+    drop.setAttribute(
+      "weather-particle",
+      "type: rain"
+    );
+
+
+    weather.appendChild(
+      drop
+    );
+
+  }
+
+}
+
+
+function createSnow() {
+
+  clearWeather();
+
+
+  const weather =
+    document.getElementById(
+      "weather"
+    );
+
+
+  for (
+    let i = 0;
+    i < 130;
+    i++
+  ) {
+
+    const snow =
+      document.createElement(
+        "a-sphere"
+      );
+
+
+    snow.setAttribute(
+      "radius",
+      ".045"
+    );
+
+
+    snow.setAttribute(
+      "color",
+      "#ffffff"
+    );
+
+
+    snow.setAttribute(
+      "position",
+
+      (
+        Math.random() *
+        18 - 9
+      )
+
+      +
+
+      " "
+
+      +
+
+      (
+        Math.random() *
+        22
+      )
+
+      +
+
+      " "
+
+      +
+
+      (
+        Math.random() *
+        18 - 9
+      )
+    );
+
+
+    snow.setAttribute(
+      "weather-particle",
+      "type: snow"
+    );
+
+
+    weather.appendChild(
+      snow
+    );
+
+  }
+
+}
+
+
+
+/* =========================================
+   TIME SETTINGS
+========================================= */
+
+function setDay() {
+
+  document
+    .getElementById("sky")
+    .setAttribute(
+      "color",
+      "#75b8e8"
+    );
+
+
+  document
+    .getElementById("ambientLight")
+    .setAttribute(
+      "light",
+      "intensity",
+      1
+    );
+
+
+  document
+    .getElementById("sunLight")
+    .setAttribute(
+      "light",
+      "intensity",
+      2
+    );
+
+}
+
+
+function setSunset() {
+
+  document
+    .getElementById("sky")
+    .setAttribute(
+      "color",
+      "#b75b43"
+    );
+
+
+  document
+    .getElementById("ambientLight")
+    .setAttribute(
+      "light",
+      "intensity",
+      .65
+    );
+
+
+  document
+    .getElementById("sunLight")
+    .setAttribute(
+      "light",
+      "intensity",
+      1.25
+    );
+
+}
+
+
+function setNight() {
+
+  document
+    .getElementById("sky")
+    .setAttribute(
+      "color",
+      "#02040c"
+    );
+
+
+  document
+    .getElementById("ambientLight")
+    .setAttribute(
+      "light",
+      "intensity",
+      .32
+    );
+
+
+  document
+    .getElementById("sunLight")
+    .setAttribute(
+      "light",
+      "intensity",
+      .55
+    );
+
+}
+
+
+
+/* =========================================
+   INITIALIZE GAME
+========================================= */
+
+const scene =
+  document.getElementById(
+    "scene"
+  );
+
+
+scene.addEventListener(
+  "loaded",
+
+  function() {
+
+
+    createFieldLines();
+
+    createFloodlights();
+
+
+    lobbyCode =
+      generateLobbyCode();
+
+
+    updateLobbyCode();
+
+
+    const startScreen =
+      document.getElementById(
+        "startScreen"
+      );
+
+
+    const rig =
+      document.getElementById(
+        "rig"
+      );
+
+
+    /* HOME */
+
+    document
+      .getElementById(
+        "homeButton"
+      )
+      .addEventListener(
+        "click",
+
+        function() {
+
+          startScreen.style.display =
+            "none";
+
+
+          rig.setAttribute(
+            "position",
+            "-10 1.6 22"
+          );
+
+        }
+      );
+
+
+    /* AWAY */
+
+    document
+      .getElementById(
+        "awayButton"
+      )
+      .addEventListener(
+        "click",
+
+        function() {
+
+          startScreen.style.display =
+            "none";
+
+
+          rig.setAttribute(
+            "position",
+            "10 1.6 -22"
+          );
+
+
+          rig.setAttribute(
+            "rotation",
+            "0 180 0"
+          );
+
+        }
+      );
+
+
+    /* NEW LOBBY CODE */
+
+    document
+      .getElementById(
+        "newCodeButton"
+      )
+      .addEventListener(
+        "click",
+
+        function() {
+
+          lobbyCode =
+            generateLobbyCode();
+
+
+          updateLobbyCode();
+
+        }
+      );
+
+
+    /* TIME BUTTONS */
+
+    document
+      .getElementById(
+        "dayButton"
+      )
+      .addEventListener(
+        "click",
+        setDay
+      );
+
+
+    document
+      .getElementById(
+        "sunsetButton"
+      )
+      .addEventListener(
+        "click",
+        setSunset
+      );
+
+
+    document
+      .getElementById(
+        "nightButton"
+      )
+      .addEventListener(
+        "click",
+        setNight
+      );
+
+
+    /* WEATHER BUTTONS */
+
+    document
+      .getElementById(
+        "normalButton"
+      )
+      .addEventListener(
+        "click",
+        clearWeather
+      );
+
+
+    document
+      .getElementById(
+        "rainButton"
+      )
+      .addEventListener(
+        "click",
+        createRain
+      );
+
+
+    document
+      .getElementById(
+        "snowButton"
+      )
+      .addEventListener(
+        "click",
+        createSnow
+      );
+
+
+    /* DEFAULT */
+
+    setNight();
+
+
+  }
+
 );
 
 </script>
