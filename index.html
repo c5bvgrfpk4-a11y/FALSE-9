@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,137 +9,86 @@
 <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
 
 <style>
-
-html,
-body {
+html, body {
   margin: 0;
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background: black;
+  background: #000;
   font-family: Arial, sans-serif;
 }
 
-
-/* =========================
-   START SCREEN
-========================= */
-
+/* START SCREEN */
 #startScreen {
-
   position: fixed;
   inset: 0;
-
-  z-index: 99999;
+  z-index: 10000;
 
   display: flex;
-
   flex-direction: column;
-
   align-items: center;
-
   justify-content: center;
 
   background:
-    radial-gradient(
-      circle,
-      #20143d 0%,
-      #080812 60%,
-      #000000 100%
-    );
+    radial-gradient(circle at center,
+      #241044 0%,
+      #090612 55%,
+      #000 100%);
 
   color: white;
-
 }
-
 
 #startScreen h1 {
-
-  font-size: clamp(55px, 10vw, 100px);
-
-  letter-spacing: 12px;
-
   margin: 0;
-
+  font-size: clamp(52px, 11vw, 100px);
+  letter-spacing: 10px;
   text-shadow:
-    0 0 20px #8d55ff,
-    0 0 60px #5522aa;
-
+    0 0 20px #9b6cff,
+    0 0 50px #53229e;
 }
-
 
 #startScreen p {
-
   letter-spacing: 4px;
-
-  opacity: .75;
-
-  margin-bottom: 35px;
-
+  opacity: .8;
 }
-
 
 #teamButtons {
-
   display: flex;
-
-  gap: 25px;
-
+  gap: 20px;
 }
 
-
 .teamButton {
-
-  width: 220px;
-
-  height: 130px;
-
-  border-radius: 15px;
+  width: 210px;
+  height: 120px;
 
   background: #111;
-
   color: white;
 
-  font-size: 28px;
+  border-radius: 16px;
 
+  font-size: 28px;
   font-weight: bold;
 
   cursor: pointer;
-
 }
-
 
 #homeButton {
-
   border: 3px solid #ff3333;
-
 }
-
 
 #awayButton {
-
   border: 3px solid #3388ff;
-
 }
-
 
 .teamButton:active {
-
   transform: scale(.96);
-
 }
-
 </style>
-
 </head>
-
 
 <body>
 
-
-<!-- =========================
-     START SCREEN
-========================= -->
+<!-- START SCREEN -->
 
 <div id="startScreen">
 
@@ -150,21 +98,12 @@ body {
 
   <div id="teamButtons">
 
-    <button
-      id="homeButton"
-      class="teamButton">
-
+    <button id="homeButton" class="teamButton">
       HOME
-
     </button>
 
-
-    <button
-      id="awayButton"
-      class="teamButton">
-
+    <button id="awayButton" class="teamButton">
       AWAY
-
     </button>
 
   </div>
@@ -172,1592 +111,1656 @@ body {
 </div>
 
 
-
-<!-- =========================
-     VR SCENE
-========================= -->
-
 <a-scene
-
   id="scene"
-
   vr-mode-ui="enabled: true"
-
   loading-screen="enabled: false"
+  renderer="antialias: true; colorManagement: true">
 
-  renderer="
-    antialias: true;
-    colorManagement: true;
-  "
+  <!-- SKY -->
 
-  background="color: #02030a">
+  <a-sky id="sky" color="#02030a"></a-sky>
 
 
-  <!-- =========================
-       SKY
-  ========================= -->
-
-  <a-sky
-    id="sky"
-    color="#02030a">
-  </a-sky>
-
-
-
-  <!-- =========================
-       LIGHTING
-  ========================= -->
+  <!-- LIGHTING -->
 
   <a-entity
     id="ambientLight"
-    light="
-      type: ambient;
-      intensity: 0.35;
-      color: #aab8ff
-    ">
+    light="type: ambient; intensity: 0.45; color: #aab8ff">
   </a-entity>
-
 
   <a-entity
     id="sunLight"
-    position="-30 50 20"
-    light="
-      type: directional;
-      intensity: 0.6;
-      color: #b8c8ff
-    ">
+    position="-20 35 15"
+    light="type: directional; intensity: 1.2; color: #dce7ff">
   </a-entity>
 
 
-
-  <!-- =========================
-       CAMERA RIG
-  ========================= -->
+  <!-- CAMERA RIG -->
 
   <a-entity
-
     id="rig"
-
     position="0 1.6 25">
 
-
     <a-camera
-
       id="camera"
-
       position="0 0 0"
-
       look-controls
+      wasd-controls="acceleration: 40">
 
-      wasd-controls>
+      <a-cursor
+        raycaster="objects: .clickable"
+        fuse="false">
+      </a-cursor>
 
     </a-camera>
-
 
 
     <!-- LEFT CONTROLLER -->
 
     <a-entity
-
       id="leftController"
-
       laser-controls="hand: left"
-
-      raycaster="
-        objects: .clickable;
-        far: 30
-      ">
+      raycaster="objects: .clickable; far: 30">
 
       <a-entity
-
-        id="leftFoot"
-
-        position="-0.20 -1.05 -0.45">
-
-
-        <!-- RED BOOT BODY -->
+        id="leftBoot"
+        position="-0.22 -1.0 -0.5"
+        boot-kick="hand: left">
 
         <a-box
-
-          width=".32"
-
+          width=".34"
           height=".20"
-
-          depth=".60"
-
-          position="0 0 0"
-
-          color="#df1717">
-
+          depth=".55"
+          color="#d91616">
         </a-box>
-
-
-        <!-- ROUND TOE -->
 
         <a-sphere
-
           radius=".17"
-
           scale="1 .70 1.55"
-
-          position="0 0 -.26"
-
-          color="#f02020">
-
+          position="0 0 -.25"
+          color="#f12626">
         </a-sphere>
 
-
-        <!-- BLACK SOLE -->
-
         <a-box
-
-          width=".36"
-
-          height=".09"
-
+          width=".37"
+          height=".08"
           depth=".70"
-
           position="0 -.14 0"
-
-          color="#111111">
-
+          color="#111">
         </a-box>
-
-
-        <!-- HEEL -->
-
-        <a-box
-
-          width=".34"
-
-          height=".20"
-
-          depth=".20"
-
-          position="0 -.02 .25"
-
-          color="#c91010">
-
-        </a-box>
-
 
         <!-- LACES -->
 
-        <a-box
-          width=".21"
-          height=".025"
-          depth=".035"
-          position="0 .11 -.16"
-          color="white">
-        </a-box>
+        <a-box width=".22" height=".025" depth=".04"
+          position="0 .11 -.15" color="white"></a-box>
 
+        <a-box width=".22" height=".025" depth=".04"
+          position="0 .11 -.06" color="white"></a-box>
 
-        <a-box
-          width=".21"
-          height=".025"
-          depth=".035"
-          position="0 .11 -.07"
-          color="white">
-        </a-box>
-
-
-        <a-box
-          width=".21"
-          height=".025"
-          depth=".035"
-          position="0 .11 .02"
-          color="white">
-        </a-box>
-
-
-        <a-box
-          width=".20"
-          height=".025"
-          depth=".035"
-          position="0 .11 .11"
-          color="white">
-        </a-box>
-
+        <a-box width=".22" height=".025" depth=".04"
+          position="0 .11 .03" color="white"></a-box>
 
       </a-entity>
 
     </a-entity>
-
 
 
     <!-- RIGHT CONTROLLER -->
 
     <a-entity
-
       id="rightController"
-
       laser-controls="hand: right"
-
-      raycaster="
-        objects: .clickable;
-        far: 30
-      ">
+      raycaster="objects: .clickable; far: 30">
 
       <a-entity
-
-        id="rightFoot"
-
-        position=".20 -1.05 -.45">
-
-
-        <!-- RED BOOT -->
+        id="rightBoot"
+        position=".22 -1.0 -.5"
+        boot-kick="hand: right">
 
         <a-box
-          width=".32"
+          width=".34"
           height=".20"
-          depth=".60"
-          color="#df1717">
+          depth=".55"
+          color="#d91616">
         </a-box>
-
-
-        <!-- TOE -->
 
         <a-sphere
-
           radius=".17"
-
           scale="1 .70 1.55"
-
-          position="0 0 -.26"
-
-          color="#f02020">
-
+          position="0 0 -.25"
+          color="#f12626">
         </a-sphere>
 
-
-        <!-- SOLE -->
-
         <a-box
-
-          width=".36"
-
-          height=".09"
-
+          width=".37"
+          height=".08"
           depth=".70"
-
           position="0 -.14 0"
-
-          color="#111111">
-
+          color="#111">
         </a-box>
-
-
-        <!-- HEEL -->
-
-        <a-box
-
-          width=".34"
-
-          height=".20"
-
-          depth=".20"
-
-          position="0 -.02 .25"
-
-          color="#c91010">
-
-        </a-box>
-
 
         <!-- LACES -->
 
-        <a-box
-          width=".21"
-          height=".025"
-          depth=".035"
-          position="0 .11 -.16"
-          color="white">
-        </a-box>
+        <a-box width=".22" height=".025" depth=".04"
+          position="0 .11 -.15" color="white"></a-box>
 
+        <a-box width=".22" height=".025" depth=".04"
+          position="0 .11 -.06" color="white"></a-box>
 
-        <a-box
-          width=".21"
-          height=".025"
-          depth=".035"
-          position="0 .11 -.07"
-          color="white">
-        </a-box>
-
-
-        <a-box
-          width=".21"
-          height=".025"
-          depth=".035"
-          position="0 .11 .02"
-          color="white">
-        </a-box>
-
-
-        <a-box
-          width=".20"
-          height=".025"
-          depth=".035"
-          position="0 .11 .11"
-          color="white">
-        </a-box>
-
+        <a-box width=".22" height=".025" depth=".04"
+          position="0 .11 .03" color="white"></a-box>
 
       </a-entity>
 
     </a-entity>
 
 
+    <!-- MENU BUTTON -->
+
+    <a-entity
+      id="menuButton"
+      class="clickable"
+      position="2.6 1.4 -3">
+
+      <a-box
+        width=".7"
+        height=".1"
+        depth=".1"
+        position="0 .22 0"
+        color="white">
+      </a-box>
+
+      <a-box
+        width=".7"
+        height=".1"
+        depth=".1"
+        color="white">
+      </a-box>
+
+      <a-box
+        width=".7"
+        height=".1"
+        depth=".1"
+        position="0 -.22 0"
+        color="white">
+      </a-box>
+
+    </a-entity>
+
+
+    <!-- VR MENU -->
+
+    <a-entity
+      id="vrMenu"
+      position="0 0 -3"
+      visible="false">
+
+      <a-box
+        width="4"
+        height="4.7"
+        depth=".1"
+        color="#12121e">
+      </a-box>
+
+      <a-text
+        value="FALSE 9 MENU"
+        align="center"
+        width="3.5"
+        position="0 1.9 .08"
+        color="white">
+      </a-text>
+
+      <a-text
+        value="TIME"
+        align="center"
+        width="2"
+        position="0 1.25 .08"
+        color="#c8b6ff">
+      </a-text>
+
+
+      <a-box
+        id="dayButton"
+        class="clickable"
+        width="1"
+        height=".45"
+        depth=".12"
+        position="-1.25 .75 .08"
+        color="#d69f22">
+      </a-box>
+
+      <a-text
+        value="DAY"
+        align="center"
+        width="1.2"
+        position="-1.25 .75 .16"
+        color="white">
+      </a-text>
+
+
+      <a-box
+        id="sunsetButton"
+        class="clickable"
+        width="1"
+        height=".45"
+        depth=".12"
+        position="0 .75 .08"
+        color="#c5683a">
+      </a-box>
+
+      <a-text
+        value="SUNSET"
+        align="center"
+        width="1.2"
+        position="0 .75 .16"
+        color="white">
+      </a-text>
+
+
+      <a-box
+        id="nightButton"
+        class="clickable"
+        width="1"
+        height=".45"
+        depth=".12"
+        position="1.25 .75 .08"
+        color="#263f88">
+      </a-box>
+
+      <a-text
+        value="NIGHT"
+        align="center"
+        width="1.2"
+        position="1.25 .75 .16"
+        color="white">
+      </a-text>
+
+
+      <a-text
+        value="WEATHER"
+        align="center"
+        width="2.4"
+        position="0 -.1 .08"
+        color="#c8b6ff">
+      </a-text>
+
+
+      <a-box
+        id="normalButton"
+        class="clickable"
+        width="1"
+        height=".45"
+        depth=".12"
+        position="-1.25 -.55 .08"
+        color="#555">
+      </a-box>
+
+      <a-text
+        value="NORMAL"
+        align="center"
+        width="1.2"
+        position="-1.25 -.55 .16"
+        color="white">
+      </a-text>
+
+
+      <a-box
+        id="rainButton"
+        class="clickable"
+        width="1"
+        height=".45"
+        depth=".12"
+        position="0 -.55 .08"
+        color="#356fba">
+      </a-box>
+
+      <a-text
+        value="RAIN"
+        align="center"
+        width="1.2"
+        position="0 -.55 .16"
+        color="white">
+      </a-text>
+
+
+      <a-box
+        id="snowButton"
+        class="clickable"
+        width="1"
+        height=".45"
+        depth=".12"
+        position="1.25 -.55 .08"
+        color="#aaa">
+      </a-box>
+
+      <a-text
+        value="SNOW"
+        align="center"
+        width="1.2"
+        position="1.25 -.55 .16"
+        color="white">
+      </a-text>
+
+    </a-entity>
+
   </a-entity>
 
 
-
-  <!-- =========================
-       FIELD
-  ========================= -->
+  <!-- FIELD -->
 
   <a-plane
-
     rotation="-90 0 0"
-
     width="108"
-
     height="68"
-
     color="#256b2d">
-
   </a-plane>
-
-
-
-  <!-- GRASS STRIPES -->
-
-  <a-plane
-    rotation="-90 0 0"
-    width="108"
-    height="8"
-    position="0 .005 -26"
-    color="#2f7d32">
-  </a-plane>
-
-
-  <a-plane
-    rotation="-90 0 0"
-    width="108"
-    height="8"
-    position="0 .005 -10"
-    color="#2a752f">
-  </a-plane>
-
-
-  <a-plane
-    rotation="-90 0 0"
-    width="108"
-    height="8"
-    position="0 .005 6"
-    color="#2f7d32">
-  </a-plane>
-
-
-  <a-plane
-    rotation="-90 0 0"
-    width="108"
-    height="8"
-    position="0 .005 22"
-    color="#2a752f">
-  </a-plane>
-
-
-
-  <!-- FIELD LINES -->
 
   <a-entity id="fieldLines"></a-entity>
 
 
-
-  <!-- =========================
-       BALL
-  ========================= -->
+  <!-- BALL -->
 
   <a-entity
-
     id="ball"
-
     position="0 .28 0"
-
     ball-physics>
 
-
-    <!-- WHITE BALL -->
-
     <a-sphere
-
       radius=".28"
-
       color="#f5f5f5">
-
     </a-sphere>
-
 
     <!-- BLACK PATCHES -->
 
     <a-sphere
-
       radius=".285"
-
-      scale=".38 .38 .06"
-
+      scale=".40 .40 .06"
       position="0 .18 -.22"
-
-      color="#111111">
-
+      color="#111">
     </a-sphere>
 
-
     <a-sphere
-
       radius=".285"
-
-      scale=".38 .06 .38"
-
+      scale=".40 .06 .40"
       position=".20 0 0"
-
-      color="#111111">
-
+      color="#111">
     </a-sphere>
 
-
     <a-sphere
-
       radius=".285"
-
-      scale=".38 .06 .38"
-
+      scale=".40 .06 .40"
       position="-.20 0 0"
-
-      color="#111111">
-
+      color="#111">
     </a-sphere>
-
-
-    <a-sphere
-
-      radius=".285"
-
-      scale=".38 .38 .06"
-
-      position="0 -.18 .22"
-
-      color="#111111">
-
-    </a-sphere>
-
 
   </a-entity>
 
 
-
-  <!-- =========================
-       GOALS
-  ========================= -->
+  <!-- GOALS -->
 
   <a-entity
-
+    id="northGoal"
     position="0 0 -34"
-
     goal>
-
   </a-entity>
 
-
   <a-entity
-
+    id="southGoal"
     position="0 0 34"
-
     rotation="0 180 0"
-
     goal>
-
   </a-entity>
 
 
-
-  <!-- =========================
-       STADIUM
-  ========================= -->
+  <!-- STADIUM -->
 
   <a-entity
-
     id="stadium"
-
     stadium-maker>
-
   </a-entity>
-
-
-
-  <!-- =========================
-       FLOODLIGHTS
-  ========================= -->
-
-  <a-entity
-
-    position="-45 22 -25"
-
-    light="
-      type: spot;
-      intensity: 4;
-      angle: 45;
-      penumbra: .4;
-      color: #eaf2ff
-    "
-
-    rotation="-45 45 0">
-
-  </a-entity>
-
-
-  <a-entity
-
-    position="45 22 -25"
-
-    light="
-      type: spot;
-      intensity: 4;
-      angle: 45;
-      penumbra: .4;
-      color: #eaf2ff
-    "
-
-    rotation="-45 -45 0">
-
-  </a-entity>
-
-
-  <a-entity
-
-    position="-45 22 25"
-
-    light="
-      type: spot;
-      intensity: 4;
-      angle: 45;
-      penumbra: .4;
-      color: #eaf2ff
-    "
-
-    rotation="-45 135 0">
-
-  </a-entity>
-
-
-  <a-entity
-
-    position="45 22 25"
-
-    light="
-      type: spot;
-      intensity: 4;
-      angle: 45;
-      penumbra: .4;
-      color: #eaf2ff
-    "
-
-    rotation="-45 -135 0">
-
-  </a-entity>
-
-
-
-  <!-- =========================
-       SCOREBOARD
-  ========================= -->
-
-  <a-entity
-
-    position="0 17 -47">
-
-
-    <a-box
-
-      width="18"
-
-      height="6"
-
-      depth=".5"
-
-      color="#080810">
-
-    </a-box>
-
-
-    <a-text
-
-      id="score"
-
-      value="HOME  0  -  0  AWAY"
-
-      align="center"
-
-      width="15"
-
-      color="white"
-
-      position="0 0 .30">
-
-    </a-text>
-
-
-  </a-entity>
-
-
-
-  <!-- =========================
-       VR MENU
-  ========================= -->
-
-  <a-entity
-
-    id="vrMenu"
-
-    position="0 2.2 -3"
-
-    visible="false">
-
-
-    <!-- MENU BACKGROUND -->
-
-    <a-box
-
-      width="3.8"
-
-      height="4.8"
-
-      depth=".08"
-
-      color="#10101c"
-
-      opacity=".96"
-
-      position="0 0 0">
-
-    </a-box>
-
-
-    <!-- TITLE -->
-
-    <a-text
-
-      value="FALSE 9 MENU"
-
-      align="center"
-
-      width="4"
-
-      color="#ffffff"
-
-      position="0 1.9 .08">
-
-    </a-text>
-
-
-    <!-- LOBBY -->
-
-    <a-text
-
-      value="LOBBY CODE"
-
-      align="center"
-
-      width="3"
-
-      color="#bda8ff"
-
-      position="0 1.35 .08">
-
-    </a-text>
-
-
-    <a-text
-
-      id="lobbyCodeText"
-
-      value="A-123456"
-
-      align="center"
-
-      width="3.5"
-
-      color="#ffffff"
-
-      position="0 .95 .08">
-
-    </a-text>
-
-
-    <!-- NEW CODE BUTTON -->
-
-    <a-box
-
-      class="clickable"
-
-      id="newCodeButton"
-
-      width="2.5"
-
-      height=".5"
-
-      depth=".15"
-
-      color="#6633bb"
-
-      position="0 .45 .10">
-
-    </a-box>
-
-
-    <a-text
-
-      value="NEW LOBBY CODE"
-
-      align="center"
-
-      width="2.6"
-
-      color="white"
-
-      position="0 .45 .20">
-
-    </a-text>
-
-
-
-    <!-- TIME TITLE -->
-
-    <a-text
-
-      value="TIME"
-
-      align="center"
-
-      width="2"
-
-      color="#bda8ff"
-
-      position="0 -.25 .10">
-
-    </a-text>
-
-
-
-    <!-- DAY -->
-
-    <a-box
-
-      class="clickable"
-
-      id="dayButton"
-
-      width="1"
-
-      height=".45"
-
-      depth=".15"
-
-      color="#d69f22"
-
-      position="-1.25 -.70 .10">
-
-    </a-box>
-
-
-    <a-text
-
-      value="DAY"
-
-      align="center"
-
-      width="1.2"
-
-      color="white"
-
-      position="-1.25 -.70 .20">
-
-    </a-text>
-
-
-
-    <!-- SUNSET -->
-
-    <a-box
-
-      class="clickable"
-
-      id="sunsetButton"
-
-      width="1"
-
-      height=".45"
-
-      depth=".15"
-
-      color="#cc6633"
-
-      position="0 -.70 .10">
-
-    </a-box>
-
-
-    <a-text
-
-      value="SUNSET"
-
-      align="center"
-
-      width="1.2"
-
-      color="white"
-
-      position="0 -.70 .20">
-
-    </a-text>
-
-
-
-    <!-- NIGHT -->
-
-    <a-box
-
-      class="clickable"
-
-      id="nightButton"
-
-      width="1"
-
-      height=".45"
-
-      depth=".15"
-
-      color="#263f88"
-
-      position="1.25 -.70 .10">
-
-    </a-box>
-
-
-    <a-text
-
-      value="NIGHT"
-
-      align="center"
-
-      width="1.2"
-
-      color="white"
-
-      position="1.25 -.70 .20">
-
-    </a-text>
-
-
-
-    <!-- WEATHER -->
-
-    <a-text
-
-      value="WEATHER"
-
-      align="center"
-
-      width="2.5"
-
-      color="#bda8ff"
-
-      position="0 -1.30 .10">
-
-    </a-text>
-
-
-
-    <!-- NORMAL -->
-
-    <a-box
-
-      class="clickable"
-
-      id="normalButton"
-
-      width="1"
-
-      height=".45"
-
-      depth=".15"
-
-      color="#444444"
-
-      position="-1.25 -1.75 .10">
-
-    </a-box>
-
-
-    <a-text
-
-      value="NORMAL"
-
-      align="center"
-
-      width="1.2"
-
-      color="white"
-
-      position="-1.25 -1.75 .20">
-
-    </a-text>
-
-
-
-    <!-- RAIN -->
-
-    <a-box
-
-      class="clickable"
-
-      id="rainButton"
-
-      width="1"
-
-      height=".45"
-
-      depth=".15"
-
-      color="#356fba"
-
-      position="0 -1.75 .10">
-
-    </a-box>
-
-
-    <a-text
-
-      value="RAIN"
-
-      align="center"
-
-      width="1.2"
-
-      color="white"
-
-      position="0 -1.75 .20">
-
-    </a-text>
-
-
-
-    <!-- SNOW -->
-
-    <a-box
-
-      class="clickable"
-
-      id="snowButton"
-
-      width="1"
-
-      height=".45"
-
-      depth=".15"
-
-      color="#aaaaaa"
-
-      position="1.25 -1.75 .10">
-
-    </a-box>
-
-
-    <a-text
-
-      value="SNOW"
-
-      align="center"
-
-      width="1.2"
-
-      color="white"
-
-      position="1.25 -1.75 .20">
-
-    </a-text>
-
-
-  </a-entity>
-
-
-
-  <!-- =========================
-       THREE LINE MENU BUTTON
-  ========================= -->
-
-  <a-entity
-
-    id="menuButton"
-
-    class="clickable"
-
-    position="2.6 1.7 -3">
-
-
-    <a-box
-      width=".7"
-      height=".12"
-      depth=".10"
-      position="0 .25 0"
-      color="white">
-    </a-box>
-
-
-    <a-box
-      width=".7"
-      height=".12"
-      depth=".10"
-      position="0 0 0"
-      color="white">
-    </a-box>
-
-
-    <a-box
-      width=".7"
-      height=".12"
-      depth=".10"
-      position="0 -.25 0"
-      color="white">
-    </a-box>
-
-
-  </a-entity>
-
 
 
   <!-- WEATHER -->
 
-  <a-entity
+  <a-entity id="weather"></a-entity>
 
-    id="weather">
+
+  <!-- SCOREBOARD -->
+
+  <a-entity position="0 17 -47">
+
+    <a-box
+      width="18"
+      height="6"
+      depth=".5"
+      color="#090912">
+    </a-box>
+
+    <a-text
+      id="scoreText"
+      value="HOME  0  -  0  AWAY"
+      align="center"
+      width="15"
+      position="0 0 .3"
+      color="white">
+    </a-text>
 
   </a-entity>
-
-
 
 </a-scene>
 
 
-
 <script>
 
+/* =====================================
+   TEAM SELECTION
+===================================== */
 
-/* =========================================
-   RANDOM LOBBY CODE
+let selectedTeam = null;
 
-   EXACT FORMAT:
+const startScreen =
+  document.getElementById("startScreen");
 
-   A-123456
-========================================= */
+const rig =
+  document.getElementById("rig");
 
-function generateLobbyCode() {
+document
+  .getElementById("homeButton")
+  .addEventListener("click", () => {
 
-  const letters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    selectedTeam = "home";
 
-  const letter =
-    letters[
-      Math.floor(
-        Math.random() *
-        letters.length
-      )
-    ];
-
-  const numbers =
-    Math.floor(
-      100000 +
-      Math.random() *
-      900000
+    rig.setAttribute(
+      "position",
+      "-10 1.6 22"
     );
 
-  return (
-    letter +
-    "-" +
-    numbers
-  );
+    startScreen.style.display = "none";
+
+  });
+
+
+document
+  .getElementById("awayButton")
+  .addEventListener("click", () => {
+
+    selectedTeam = "away";
+
+    rig.setAttribute(
+      "position",
+      "10 1.6 -22"
+    );
+
+    startScreen.style.display = "none";
+
+  });
+
+
+
+/* =====================================
+   SCORE
+===================================== */
+
+let homeScore = 0;
+let awayScore = 0;
+
+function updateScore() {
+
+  document
+    .getElementById("scoreText")
+    .setAttribute(
+      "value",
+      `HOME  ${homeScore}  -  ${awayScore}  AWAY`
+    );
 
 }
 
 
-let lobbyCode =
-  generateLobbyCode();
+function resetBall() {
+
+  const ball =
+    document.getElementById("ball");
+
+  ball.object3D.position.set(
+    0,
+    .28,
+    0
+  );
+
+  const physics =
+    ball.components["ball-physics"];
+
+  if (physics) {
+
+    physics.velocity.set(
+      0,
+      0,
+      0
+    );
+
+  }
+
+}
+
+
+let scoring = false;
+
+function scoreGoal(team) {
+
+  if (scoring) return;
+
+  scoring = true;
+
+  if (team === "home") {
+    homeScore++;
+  } else {
+    awayScore++;
+  }
+
+  updateScore();
+
+  setTimeout(() => {
+
+    resetBall();
+
+    scoring = false;
+
+  }, 1200);
+
+}
 
 
 
-/* =========================================
-   WAIT FOR SCENE
-========================================= */
+/* =====================================
+   BOOT KICKING
+===================================== */
 
-const scene =
-  document.getElementById("scene");
+AFRAME.registerComponent(
+  "boot-kick",
+  {
+
+    init: function () {
+
+      this.lastPosition =
+        new THREE.Vector3();
+
+      this.currentPosition =
+        new THREE.Vector3();
+
+      this.velocity =
+        new THREE.Vector3();
+
+      this.lastKick =
+        0;
+
+      this.el.object3D.getWorldPosition(
+        this.lastPosition
+      );
+
+    },
 
 
-scene.addEventListener(
-  "loaded",
-  function () {
+    tick: function(time, delta) {
+
+      const ball =
+        document.getElementById("ball");
+
+      if (!ball) return;
+
+      const ballPhysics =
+        ball.components["ball-physics"];
+
+      if (!ballPhysics) return;
 
 
-    /* =========================
-       START
-    ========================= */
-
-    const startScreen =
-      document.getElementById(
-        "startScreen"
+      this.el.object3D.getWorldPosition(
+        this.currentPosition
       );
 
 
-    const rig =
-      document.getElementById(
-        "rig"
+      const dt =
+        Math.max(
+          delta / 1000,
+          .001
+        );
+
+
+      this.velocity
+        .subVectors(
+          this.currentPosition,
+          this.lastPosition
+        )
+        .divideScalar(dt);
+
+
+      const ballPos =
+        new THREE.Vector3();
+
+      ball.object3D.getWorldPosition(
+        ballPos
       );
 
 
-    document
-      .getElementById("homeButton")
-      .addEventListener(
-        "click",
-        function () {
-
-          startScreen.style.display =
-            "none";
-
-          rig.setAttribute(
-            "position",
-            "-10 1.6 22"
-          );
-
-        }
-      );
+      const distance =
+        this.currentPosition.distanceTo(
+          ballPos
+        );
 
 
-    document
-      .getElementById("awayButton")
-      .addEventListener(
-        "click",
-        function () {
+      if (
+        distance < .65 &&
+        time - this.lastKick > 180
+      ) {
 
-          startScreen.style.display =
-            "none";
-
-          rig.setAttribute(
-            "position",
-            "10 1.6 -22"
-          );
-
-        }
-      );
+        const speed =
+          this.velocity.length();
 
 
+        if (speed > .8) {
 
-    /* =========================
-       MENU
-    ========================= */
+          const direction =
+            new THREE.Vector3()
+              .subVectors(
+                ballPos,
+                this.currentPosition
+              )
+              .normalize();
 
-    const menu =
-      document.getElementById(
-        "vrMenu"
-      );
+
+          direction.y =
+            Math.max(
+              .12,
+              direction.y
+            );
 
 
-    document
-      .getElementById(
-        "menuButton"
-      )
-      .addEventListener(
-        "click",
-        function () {
-
-          menu.setAttribute(
-            "visible",
-            !menu.getAttribute(
-              "visible"
+          ballPhysics.velocity.addScaledVector(
+            direction,
+            Math.min(
+              speed * 1.25,
+              18
             )
           );
 
-        }
-      );
+
+          ballPhysics.velocity.y +=
+            Math.min(
+              speed * .08,
+              2.5
+            );
 
 
-
-    /* =========================
-       LOBBY CODE
-    ========================= */
-
-    function updateLobbyCode() {
-
-      document
-        .getElementById(
-          "lobbyCodeText"
-        )
-        .setAttribute(
-          "value",
-          lobbyCode
-        );
-
-    }
-
-
-    updateLobbyCode();
-
-
-    document
-      .getElementById(
-        "newCodeButton"
-      )
-      .addEventListener(
-        "click",
-        function () {
-
-          lobbyCode =
-            generateLobbyCode();
-
-          updateLobbyCode();
+          this.lastKick =
+            time;
 
         }
-      );
-
-
-
-    /* =========================
-       TIME
-    ========================= */
-
-    function setDay() {
-
-      document
-        .getElementById("sky")
-        .setAttribute(
-          "color",
-          "#78b9e8"
-        );
-
-
-      document
-        .getElementById("ambientLight")
-        .setAttribute(
-          "light",
-          "intensity",
-          1
-        );
-
-
-      document
-        .getElementById("sunLight")
-        .setAttribute(
-          "light",
-          "intensity",
-          2.5
-        );
-
-    }
-
-
-
-    function setSunset() {
-
-      document
-        .getElementById("sky")
-        .setAttribute(
-          "color",
-          "#b65b4a"
-        );
-
-
-      document
-        .getElementById("ambientLight")
-        .setAttribute(
-          "light",
-          "intensity",
-          .65
-        );
-
-
-      document
-        .getElementById("sunLight")
-        .setAttribute(
-          "light",
-          "intensity",
-          1.4
-        );
-
-    }
-
-
-
-    function setNight() {
-
-      document
-        .getElementById("sky")
-        .setAttribute(
-          "color",
-          "#02030a"
-        );
-
-
-      document
-        .getElementById("ambientLight")
-        .setAttribute(
-          "light",
-          "intensity",
-          .3
-        );
-
-
-      document
-        .getElementById("sunLight")
-        .setAttribute(
-          "light",
-          "intensity",
-          .5
-        );
-
-    }
-
-
-
-    document
-      .getElementById(
-        "dayButton"
-      )
-      .addEventListener(
-        "click",
-        setDay
-      );
-
-
-    document
-      .getElementById(
-        "sunsetButton"
-      )
-      .addEventListener(
-        "click",
-        setSunset
-      );
-
-
-    document
-      .getElementById(
-        "nightButton"
-      )
-      .addEventListener(
-        "click",
-        setNight
-      );
-
-
-
-    /* =========================
-       WEATHER
-    ========================= */
-
-    const weather =
-      document.getElementById(
-        "weather"
-      );
-
-
-    function clearWeather() {
-
-      while (
-        weather.firstChild
-      ) {
-
-        weather.removeChild(
-          weather.firstChild
-        );
 
       }
 
-    }
 
-
-
-    function createRain() {
-
-      clearWeather();
-
-
-      for (
-        let i = 0;
-        i < 250;
-        i++
-      ) {
-
-        const drop =
-          document.createElement(
-            "a-box"
-          );
-
-
-        drop.setAttribute(
-          "width",
-          ".015"
-        );
-
-
-        drop.setAttribute(
-          "height",
-          ".45"
-        );
-
-
-        drop.setAttribute(
-          "depth",
-          ".015"
-        );
-
-
-        drop.setAttribute(
-          "color",
-          "#88bbff"
-        );
-
-
-        drop.setAttribute(
-          "position",
-          (
-            Math.random() * 70 - 35
-          ) +
-          " " +
-          (
-            Math.random() * 25
-          ) +
-          " " +
-          (
-            Math.random() * 70 - 35
-          )
-        );
-
-
-        drop.setAttribute(
-          "weather-drop",
-          "type: rain"
-        );
-
-
-        weather.appendChild(
-          drop
-        );
-
-      }
-
-    }
-
-
-
-    function createSnow() {
-
-      clearWeather();
-
-
-      for (
-        let i = 0;
-        i < 180;
-        i++
-      ) {
-
-        const flake =
-          document.createElement(
-            "a-sphere"
-          );
-
-
-        flake.setAttribute(
-          "radius",
-          ".04"
-        );
-
-
-        flake.setAttribute(
-          "color",
-          "white"
-        );
-
-
-        flake.setAttribute(
-          "position",
-          (
-            Math.random() * 70 - 35
-          ) +
-          " " +
-          (
-            Math.random() * 25
-          ) +
-          " " +
-          (
-            Math.random() * 70 - 35
-          )
-        );
-
-
-        flake.setAttribute(
-          "weather-drop",
-          "type: snow"
-        );
-
-
-        weather.appendChild(
-          flake
-        );
-
-      }
-
-    }
-
-
-
-    document
-      .getElementById(
-        "normalButton"
-      )
-      .addEventListener(
-        "click",
-        clearWeather
+      this.lastPosition.copy(
+        this.currentPosition
       );
 
-
-    document
-      .getElementById(
-        "rainButton"
-      )
-      .addEventListener(
-        "click",
-        createRain
-      );
-
-
-    document
-      .getElementById(
-        "snowButton"
-      )
-      .addEventListener(
-        "click",
-        createSnow
-      );
-
-
-    setNight();
+    }
 
   }
 );
 
 
 
-/* =========================================
+/* =====================================
+   BALL PHYSICS
+===================================== */
+
+AFRAME.registerComponent(
+  "ball-physics",
+  {
+
+    init: function() {
+
+      this.velocity =
+        new THREE.Vector3();
+
+      this.radius =
+        .28;
+
+    },
+
+
+    tick: function(time, delta) {
+
+      const ball =
+        this.el.object3D;
+
+      const dt =
+        Math.min(
+          delta / 1000,
+          .03
+        );
+
+
+      /* GRAVITY */
+
+      this.velocity.y -=
+        9.8 * dt;
+
+
+      /* MOVE */
+
+      ball.position.addScaledVector(
+        this.velocity,
+        dt
+      );
+
+
+      /* GROUND */
+
+      if (
+        ball.position.y <
+        this.radius
+      ) {
+
+        ball.position.y =
+          this.radius;
+
+
+        if (
+          this.velocity.y < 0
+        ) {
+
+          this.velocity.y *=
+            -.28;
+
+        }
+
+
+        this.velocity.x *= .985;
+
+        this.velocity.z *= .985;
+
+      }
+
+
+      /* AIR DRAG */
+
+      this.velocity.multiplyScalar(
+        .998
+      );
+
+
+      /* STOP TINY MOVEMENT */
+
+      if (
+        Math.abs(this.velocity.x) <
+        .02
+      ) {
+
+        this.velocity.x = 0;
+
+      }
+
+
+      if (
+        Math.abs(this.velocity.z) <
+        .02
+      ) {
+
+        this.velocity.z = 0;
+
+      }
+
+
+      /* SIDE WALLS */
+
+      if (
+        ball.position.x <
+        -53.5
+      ) {
+
+        ball.position.x =
+          -53.5;
+
+        this.velocity.x *=
+          -.65;
+
+      }
+
+
+      if (
+        ball.position.x >
+        53.5
+      ) {
+
+        ball.position.x =
+          53.5;
+
+        this.velocity.x *=
+          -.65;
+
+      }
+
+
+      /* NORTH GOAL */
+
+      if (
+        ball.position.z <
+        -34
+      ) {
+
+        const insideGoal =
+          Math.abs(
+            ball.position.x
+          ) < 3.35 &&
+          ball.position.y < 2.3;
+
+
+        if (insideGoal) {
+
+          if (
+            ball.position.z <
+            -35.2
+          ) {
+
+            scoreGoal(
+              "away"
+            );
+
+          }
+
+        }
+
+        else {
+
+          ball.position.z =
+            -33.7;
+
+          this.velocity.z *=
+            -.65;
+
+        }
+
+      }
+
+
+      /* SOUTH GOAL */
+
+      if (
+        ball.position.z >
+        34
+      ) {
+
+        const insideGoal =
+          Math.abs(
+            ball.position.x
+          ) < 3.35 &&
+          ball.position.y < 2.3;
+
+
+        if (insideGoal) {
+
+          if (
+            ball.position.z >
+            35.2
+          ) {
+
+            scoreGoal(
+              "home"
+            );
+
+          }
+
+        }
+
+        else {
+
+          ball.position.z =
+            33.7;
+
+          this.velocity.z *=
+            -.65;
+
+        }
+
+      }
+
+
+      /* BACK NET */
+
+      if (
+        ball.position.z <
+        -36
+      ) {
+
+        ball.position.z =
+          -36;
+
+        this.velocity.z *=
+          -.4;
+
+      }
+
+
+      if (
+        ball.position.z >
+        36
+      ) {
+
+        ball.position.z =
+          36;
+
+        this.velocity.z *=
+          -.4;
+
+      }
+
+
+      /* ROTATION */
+
+      ball.rotation.z +=
+        this.velocity.x *
+        dt *
+        3;
+
+
+      ball.rotation.x -=
+        this.velocity.z *
+        dt *
+        3;
+
+    }
+
+  }
+);
+
+
+
+/* =====================================
+   GOALS
+===================================== */
+
+AFRAME.registerComponent(
+  "goal",
+  {
+
+    init: function() {
+
+      const goal =
+        this.el;
+
+      const width =
+        7.2;
+
+      const height =
+        2.3;
+
+      const depth =
+        2.2;
+
+
+      function bar(
+        x, y, z,
+        w, h, d,
+        color = "white"
+      ) {
+
+        const el =
+          document.createElement(
+            "a-box"
+          );
+
+        el.setAttribute(
+          "position",
+          `${x} ${y} ${z}`
+        );
+
+        el.setAttribute(
+          "width",
+          w
+        );
+
+        el.setAttribute(
+          "height",
+          h
+        );
+
+        el.setAttribute(
+          "depth",
+          d
+        );
+
+        el.setAttribute(
+          "color",
+          color
+        );
+
+        goal.appendChild(el);
+
+      }
+
+
+      /* POSTS */
+
+      bar(
+        -width / 2,
+        height / 2,
+        0,
+        .16,
+        height,
+        .16
+      );
+
+      bar(
+        width / 2,
+        height / 2,
+        0,
+        .16,
+        height,
+        .16
+      );
+
+
+      /* CROSSBAR */
+
+      bar(
+        0,
+        height,
+        0,
+        width,
+        .16,
+        .16
+      );
+
+
+      /* BACK */
+
+      bar(
+        0,
+        height,
+        depth,
+        width,
+        .10,
+        .10,
+        "#dddddd"
+      );
+
+      bar(
+        -width / 2,
+        height / 2,
+        depth,
+        .10,
+        height,
+        .10,
+        "#dddddd"
+      );
+
+      bar(
+        width / 2,
+        height / 2,
+        depth,
+        .10,
+        height,
+        .10,
+        "#dddddd"
+      );
+
+    }
+
+  }
+);
+
+
+
+/* =====================================
+   FIELD LINES
+===================================== */
+
+window.addEventListener(
+  "load",
+  () => {
+
+    const lines =
+      document.getElementById(
+        "fieldLines"
+      );
+
+
+    function addLine(
+      width,
+      depth,
+      x,
+      z
+    ) {
+
+      const line =
+        document.createElement(
+          "a-box"
+        );
+
+      line.setAttribute(
+        "width",
+        width
+      );
+
+      line.setAttribute(
+        "height",
+        ".025"
+      );
+
+      line.setAttribute(
+        "depth",
+        depth
+      );
+
+      line.setAttribute(
+        "color",
+        "white"
+      );
+
+      line.setAttribute(
+        "position",
+        `${x} .02 ${z}`
+      );
+
+      lines.appendChild(
+        line
+      );
+
+    }
+
+
+    /* OUTSIDE */
+
+    addLine(
+      108, .12,
+      0, -34
+    );
+
+    addLine(
+      108, .12,
+      0, 34
+    );
+
+    addLine(
+      .12, 68,
+      -54, 0
+    );
+
+    addLine(
+      .12, 68,
+      54, 0
+    );
+
+
+    /* CENTER */
+
+    addLine(
+      108, .10,
+      0, 0
+    );
+
+
+    const circle =
+      document.createElement(
+        "a-ring"
+      );
+
+    circle.setAttribute(
+      "rotation",
+      "-90 0 0"
+    );
+
+    circle.setAttribute(
+      "radius-inner",
+      "9.05"
+    );
+
+    circle.setAttribute(
+      "radius-outer",
+      "9.13"
+    );
+
+    circle.setAttribute(
+      "color",
+      "white"
+    );
+
+    circle.setAttribute(
+      "position",
+      "0 .02 0"
+    );
+
+    lines.appendChild(
+      circle
+    );
+
+  }
+);
+
+
+
+/* =====================================
+   STADIUM
+===================================== */
+
+AFRAME.registerComponent(
+  "stadium-maker",
+  {
+
+    init: function() {
+
+      const stadium =
+        this.el;
+
+
+      function block(
+        x, y, z,
+        w, h, d,
+        color
+      ) {
+
+        const b =
+          document.createElement(
+            "a-box"
+          );
+
+        b.setAttribute(
+          "position",
+          `${x} ${y} ${z}`
+        );
+
+        b.setAttribute(
+          "width",
+          w
+        );
+
+        b.setAttribute(
+          "height",
+          h
+        );
+
+        b.setAttribute(
+          "depth",
+          d
+        );
+
+        b.setAttribute(
+          "color",
+          color
+        );
+
+        stadium.appendChild(
+          b
+        );
+
+      }
+
+
+      for (
+        let tier = 0;
+        tier < 14;
+        tier++
+      ) {
+
+        const y =
+          1 +
+          tier * .8;
+
+        const expand =
+          tier * 1.2;
+
+        const color =
+          tier % 2 === 0
+            ? "#552a91"
+            : "#6a3dad";
+
+
+        block(
+          0,
+          y,
+          -38 - expand,
+          125 + expand * 2,
+          .75,
+          2.5,
+          color
+        );
+
+        block(
+          0,
+          y,
+          38 + expand,
+          125 + expand * 2,
+          .75,
+          2.5,
+          color
+        );
+
+        block(
+          -58 - expand,
+          y,
+          0,
+          2.5,
+          .75,
+          82 + expand * 2,
+          color
+        );
+
+        block(
+          58 + expand,
+          y,
+          0,
+          2.5,
+          .75,
+          82 + expand * 2,
+          color
+        );
+
+      }
+
+
+      /* ROOF */
+
+      block(
+        0, 25, -62,
+        155, 2, 18,
+        "#15151e"
+      );
+
+      block(
+        0, 25, 62,
+        155, 2, 18,
+        "#15151e"
+      );
+
+      block(
+        -74, 25, 0,
+        18, 2, 110,
+        "#15151e"
+      );
+
+      block(
+        74, 25, 0,
+        18, 2, 110,
+        "#15151e"
+      );
+
+    }
+
+  }
+);
+
+
+
+/* =====================================
+   MENU
+===================================== */
+
+const menu =
+  document.getElementById(
+    "vrMenu"
+  );
+
+document
+  .getElementById(
+    "menuButton"
+  )
+  .addEventListener(
+    "click",
+    () => {
+
+      menu.setAttribute(
+        "visible",
+        !menu.getAttribute(
+          "visible"
+        )
+      );
+
+    }
+  );
+
+
+
+/* =====================================
+   TIME
+===================================== */
+
+function setTime(
+  skyColor,
+  ambient,
+  sun
+) {
+
+  document
+    .getElementById("sky")
+    .setAttribute(
+      "color",
+      skyColor
+    );
+
+  document
+    .getElementById("ambientLight")
+    .setAttribute(
+      "light",
+      "intensity",
+      ambient
+    );
+
+  document
+    .getElementById("sunLight")
+    .setAttribute(
+      "light",
+      "intensity",
+      sun
+    );
+
+}
+
+
+document
+  .getElementById(
+    "dayButton"
+  )
+  .addEventListener(
+    "click",
+    () => setTime(
+      "#78b9e8",
+      1,
+      2.5
+    )
+  );
+
+
+document
+  .getElementById(
+    "sunsetButton"
+  )
+  .addEventListener(
+    "click",
+    () => setTime(
+      "#c66b4c",
+      .7,
+      1.5
+    )
+  );
+
+
+document
+  .getElementById(
+    "nightButton"
+  )
+  .addEventListener(
+    "click",
+    () => setTime(
+      "#02030a",
+      .35,
+      1
+    )
+  );
+
+
+
+/* =====================================
+   WEATHER
+===================================== */
+
+const weather =
+  document.getElementById(
+    "weather"
+  );
+
+
+function clearWeather() {
+
+  while (
+    weather.firstChild
+  ) {
+
+    weather.removeChild(
+      weather.firstChild
+    );
+
+  }
+
+}
+
+
+function createRain() {
+
+  clearWeather();
+
+  for (
+    let i = 0;
+    i < 180;
+    i++
+  ) {
+
+    const drop =
+      document.createElement(
+        "a-box"
+      );
+
+    drop.setAttribute(
+      "width",
+      ".015"
+    );
+
+    drop.setAttribute(
+      "height",
+      ".45"
+    );
+
+    drop.setAttribute(
+      "depth",
+      ".015"
+    );
+
+    drop.setAttribute(
+      "color",
+      "#9ac8ff"
+    );
+
+    drop.setAttribute(
+      "position",
+      `${Math.random()*70-35}
+       ${Math.random()*25}
+       ${Math.random()*70-35}`
+    );
+
+    drop.setAttribute(
+      "weather-drop",
+      "type: rain"
+    );
+
+    weather.appendChild(
+      drop
+    );
+
+  }
+
+}
+
+
+function createSnow() {
+
+  clearWeather();
+
+  for (
+    let i = 0;
+    i < 140;
+    i++
+  ) {
+
+    const flake =
+      document.createElement(
+        "a-sphere"
+      );
+
+    flake.setAttribute(
+      "radius",
+      ".04"
+    );
+
+    flake.setAttribute(
+      "color",
+      "white"
+    );
+
+    flake.setAttribute(
+      "position",
+      `${Math.random()*70-35}
+       ${Math.random()*25}
+       ${Math.random()*70-35}`
+    );
+
+    flake.setAttribute(
+      "weather-drop",
+      "type: snow"
+    );
+
+    weather.appendChild(
+      flake
+    );
+
+  }
+
+}
+
+
+document
+  .getElementById(
+    "normalButton"
+  )
+  .addEventListener(
+    "click",
+    clearWeather
+  );
+
+
+document
+  .getElementById(
+    "rainButton"
+  )
+  .addEventListener(
+    "click",
+    createRain
+  );
+
+
+document
+  .getElementById(
+    "snowButton"
+  )
+  .addEventListener(
+    "click",
+    createSnow
+  );
+
+
+
+/* =====================================
    WEATHER MOVEMENT
-========================================= */
+===================================== */
 
 AFRAME.registerComponent(
   "weather-drop",
@@ -1772,43 +1775,43 @@ AFRAME.registerComponent(
     },
 
 
-    tick: function (
+    tick: function(
       time,
       delta
     ) {
+
+      const pos =
+        this.el.object3D.position;
+
 
       if (
         this.data.type ===
         "rain"
       ) {
 
-        this.el.object3D.position.y -=
-          delta *
-          .018;
+        pos.y -=
+          delta * .018;
 
       }
 
       else {
 
-        this.el.object3D.position.y -=
-          delta *
-          .003;
+        pos.y -=
+          delta * .003;
 
-        this.el.object3D.position.x +=
+        pos.x +=
           Math.sin(
             time * .002
-          ) *
-          .002;
+          ) * .002;
 
       }
 
 
       if (
-        this.el.object3D.position.y <
-        0
+        pos.y < 0
       ) {
 
-        this.el.object3D.position.y =
+        pos.y =
           25;
 
       }
@@ -1818,632 +1821,7 @@ AFRAME.registerComponent(
   }
 );
 
-
-
-/* =========================================
-   FIELD LINES
-========================================= */
-
-window.addEventListener(
-  "load",
-  function () {
-
-
-    const lines =
-      document.getElementById(
-        "fieldLines"
-      );
-
-
-    function line(
-      width,
-      depth,
-      x,
-      z
-    ) {
-
-      const el =
-        document.createElement(
-          "a-box"
-        );
-
-
-      el.setAttribute(
-        "width",
-        width
-      );
-
-
-      el.setAttribute(
-        "height",
-        ".025"
-      );
-
-
-      el.setAttribute(
-        "depth",
-        depth
-      );
-
-
-      el.setAttribute(
-        "color",
-        "white"
-      );
-
-
-      el.setAttribute(
-        "position",
-        x +
-        " .02 " +
-        z
-      );
-
-
-      lines.appendChild(el);
-
-    }
-
-
-    line(
-      108,
-      .12,
-      0,
-      -34
-    );
-
-
-    line(
-      108,
-      .12,
-      0,
-      34
-    );
-
-
-    line(
-      .12,
-      68,
-      -54,
-      0
-    );
-
-
-    line(
-      .12,
-      68,
-      54,
-      0
-    );
-
-
-    line(
-      108,
-      .10,
-      0,
-      0
-    );
-
-
-    const circle =
-      document.createElement(
-        "a-ring"
-      );
-
-
-    circle.setAttribute(
-      "rotation",
-      "-90 0 0"
-    );
-
-
-    circle.setAttribute(
-      "radius-inner",
-      "9.05"
-    );
-
-
-    circle.setAttribute(
-      "radius-outer",
-      "9.13"
-    );
-
-
-    circle.setAttribute(
-      "color",
-      "white"
-    );
-
-
-    circle.setAttribute(
-      "position",
-      "0 .02 0"
-    );
-
-
-    lines.appendChild(circle);
-
-  }
-);
-
-
-
-/* =========================================
-   GOAL
-========================================= */
-
-AFRAME.registerComponent(
-  "goal",
-  {
-
-    init: function () {
-
-      const goal =
-        this.el;
-
-
-      const width =
-        7.2;
-
-
-      const height =
-        2.3;
-
-
-      const depth =
-        2.2;
-
-
-
-      function bar(
-        x,
-        y,
-        z,
-        w,
-        h,
-        d
-      ) {
-
-        const piece =
-          document.createElement(
-            "a-box"
-          );
-
-
-        piece.setAttribute(
-          "position",
-          x +
-          " " +
-          y +
-          " " +
-          z
-        );
-
-
-        piece.setAttribute(
-          "width",
-          w
-        );
-
-
-        piece.setAttribute(
-          "height",
-          h
-        );
-
-
-        piece.setAttribute(
-          "depth",
-          d
-        );
-
-
-        piece.setAttribute(
-          "color",
-          "white"
-        );
-
-
-        goal.appendChild(piece);
-
-      }
-
-
-      bar(
-        -width / 2,
-        height / 2,
-        0,
-        .15,
-        height,
-        .15
-      );
-
-
-      bar(
-        width / 2,
-        height / 2,
-        0,
-        .15,
-        height,
-        .15
-      );
-
-
-      bar(
-        0,
-        height,
-        0,
-        width,
-        .15,
-        .15
-      );
-
-
-      bar(
-        0,
-        height,
-        depth,
-        width,
-        .10,
-        .10
-      );
-
-
-      bar(
-        -width / 2,
-        height / 2,
-        depth,
-        .10,
-        height,
-        .10
-      );
-
-
-      bar(
-        width / 2,
-        height / 2,
-        depth,
-        .10,
-        height,
-        .10
-      );
-
-
-    }
-
-  }
-);
-
-
-
-/* =========================================
-   STADIUM
-========================================= */
-
-AFRAME.registerComponent(
-  "stadium-maker",
-  {
-
-    init: function () {
-
-      const stadium =
-        this.el;
-
-
-      function block(
-        x,
-        y,
-        z,
-        w,
-        h,
-        d,
-        color
-      ) {
-
-        const b =
-          document.createElement(
-            "a-box"
-          );
-
-
-        b.setAttribute(
-          "position",
-          x +
-          " " +
-          y +
-          " " +
-          z
-        );
-
-
-        b.setAttribute(
-          "width",
-          w
-        );
-
-
-        b.setAttribute(
-          "height",
-          h
-        );
-
-
-        b.setAttribute(
-          "depth",
-          d
-        );
-
-
-        b.setAttribute(
-          "color",
-          color
-        );
-
-
-        stadium.appendChild(b);
-
-      }
-
-
-
-      /*
-       PURPLE STADIUM TIERS
-      */
-
-      for (
-        let tier = 0;
-        tier < 16;
-        tier++
-      ) {
-
-        const y =
-          1 +
-          tier *
-          .72;
-
-
-        const expand =
-          tier *
-          1.25;
-
-
-        const purple =
-          tier % 2 === 0
-            ? "#54278f"
-            : "#6939aa";
-
-
-        /* LONG SIDES */
-
-        block(
-          0,
-          y,
-          -38 - expand,
-          125 + expand * 2,
-          .68,
-          2.4,
-          purple
-        );
-
-
-        block(
-          0,
-          y,
-          38 + expand,
-          125 + expand * 2,
-          .68,
-          2.4,
-          purple
-        );
-
-
-        /* END SIDES */
-
-        block(
-          -58 - expand,
-          y,
-          0,
-          2.4,
-          .68,
-          82 + expand * 2,
-          purple
-        );
-
-
-        block(
-          58 + expand,
-          y,
-          0,
-          2.4,
-          .68,
-          82 + expand * 2,
-          purple
-        );
-
-      }
-
-
-
-      /*
-       WHITE LED RINGS
-      */
-
-      for (
-        let level = 0;
-        level < 3;
-        level++
-      ) {
-
-        const y =
-          4 +
-          level *
-          5;
-
-
-        block(
-          0,
-          y,
-          -49 - level * 5,
-          145,
-          .25,
-          .7,
-          "#f3efff"
-        );
-
-
-        block(
-          0,
-          y,
-          49 + level * 5,
-          145,
-          .25,
-          .7,
-          "#f3efff"
-        );
-
-      }
-
-
-
-      /*
-       ROOF STRUCTURE
-      */
-
-      const roofY =
-        27;
-
-
-      block(
-        0,
-        roofY,
-        -66,
-        160,
-        1.5,
-        18,
-        "#171724"
-      );
-
-
-      block(
-        0,
-        roofY,
-        66,
-        160,
-        1.5,
-        18,
-        "#171724"
-      );
-
-
-      block(
-        -78,
-        roofY,
-        0,
-        18,
-        1.5,
-        120,
-        "#171724"
-      );
-
-
-      block(
-        78,
-        roofY,
-        0,
-        18,
-        1.5,
-        120,
-        "#171724"
-      );
-
-
-    }
-
-  }
-);
-
-
-
-/* =========================================
-   BALL PHYSICS
-========================================= */
-
-AFRAME.registerComponent(
-  "ball-physics",
-  {
-
-    init: function () {
-
-      this.velocity =
-        new THREE.Vector3();
-
-    },
-
-
-    tick: function (
-      time,
-      delta
-    ) {
-
-      const dt =
-        Math.min(
-          delta / 1000,
-          .03
-        );
-
-
-      this.velocity.y -=
-        9.8 *
-        dt;
-
-
-      this.el.object3D.position.addScaledVector(
-        this.velocity,
-        dt
-      );
-
-
-      if (
-        this.el.object3D.position.y <
-        .28
-      ) {
-
-        this.el.object3D.position.y =
-          .28;
-
-
-        if (
-          this.velocity.y < 0
-        ) {
-
-          this.velocity.y *=
-            -.25;
-
-        }
-
-
-        this.velocity.x *=
-          .985;
-
-
-        this.velocity.z *=
-          .985;
-
-      }
-
-
-      this.velocity.multiplyScalar(
-        .998
-      );
-
-    }
-
-  }
-);
-
-
 </script>
 
 </body>
-
 </html>
