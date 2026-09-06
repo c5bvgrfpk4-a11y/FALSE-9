@@ -1,375 +1,502 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
 
-<title>FALSE 9</title>
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
 
-<script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+  <title>FALSE 9</title>
 
-<style>
-html, body {
-  margin: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  background: #050505;
-  font-family: Arial, sans-serif;
-}
+  <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
 
-#loadingScreen {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: radial-gradient(circle at center, #181818 0%, #050505 75%);
-  color: white;
-}
+  <style>
+    html,
+    body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #111;
+      font-family: Arial, sans-serif;
+    }
 
-#loadingScreen h1 {
-  margin: 0;
-  font-size: clamp(48px, 10vw, 80px);
-  letter-spacing: 8px;
-}
+    #menu {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
 
-#loadingScreen p {
-  margin: 20px 0 35px;
-  opacity: .75;
-  letter-spacing: 2px;
-}
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
 
-#teamButtons {
-  display: flex;
-  gap: 25px;
-}
+      background: #080808;
+      color: white;
+    }
 
-.teamButton {
-  width: 220px;
-  height: 150px;
-  border: 3px solid white;
-  border-radius: 15px;
-  background: #111;
-  color: white;
-  font-size: 28px;
-  font-weight: bold;
-  cursor: pointer;
-}
+    #menu h1 {
+      margin: 0 0 15px 0;
+      font-size: 70px;
+      letter-spacing: 8px;
+    }
 
-#homeButton {
-  border-color: #e53935;
-}
+    #menu p {
+      margin: 0 0 30px 0;
+      font-size: 18px;
+    }
 
-#awayButton {
-  border-color: #2196f3;
-}
-</style>
+    #buttons {
+      display: flex;
+      gap: 20px;
+    }
+
+    button {
+      width: 180px;
+      height: 100px;
+
+      font-size: 28px;
+      font-weight: bold;
+
+      color: white;
+      background: #151515;
+
+      border: 3px solid white;
+      border-radius: 12px;
+    }
+
+    #home {
+      border-color: #e53935;
+    }
+
+    #away {
+      border-color: #2196f3;
+    }
+  </style>
 </head>
+
 
 <body>
 
-<div id="loadingScreen">
-  <h1>FALSE 9</h1>
-  <p>CHOOSE YOUR TEAM</p>
 
-  <div id="teamButtons">
-    <button class="teamButton" id="homeButton">HOME</button>
-    <button class="teamButton" id="awayButton">AWAY</button>
+  <!-- =====================
+       TEAM MENU
+  ====================== -->
+
+  <div id="menu">
+
+    <h1>FALSE 9</h1>
+
+    <p>CHOOSE YOUR TEAM</p>
+
+    <div id="buttons">
+
+      <button id="home">
+        HOME
+      </button>
+
+      <button id="away">
+        AWAY
+      </button>
+
+    </div>
+
   </div>
-</div>
 
 
-<a-scene
-  id="scene"
-  vr-mode-ui="enabled: true"
-  loading-screen="enabled: false"
-  background="color: #87b8df"
-  renderer="antialias: true">
 
-  <!-- SKY -->
-  <a-sky color="#87b8df"></a-sky>
+  <!-- =====================
+       VR GAME
+  ====================== -->
 
-  <!-- LIGHTS -->
-  <a-entity
-    light="type: ambient; intensity: 1.2">
-  </a-entity>
+  <a-scene
+    id="scene"
 
-  <a-entity
-    light="type: directional; intensity: 1.2"
-    position="-20 30 20">
-  </a-entity>
+    vr-mode-ui="enabled: true"
+
+    loading-screen="enabled: false"
+
+    embedded
+
+    renderer="antialias: true"
+
+  >
 
 
-  <!-- PLAYER -->
-  <a-entity id="rig" position="0 1.6 28">
+    <!-- SKY -->
 
-    <a-camera
-      id="camera"
+    <a-sky
+      color="#87CEEB">
+    </a-sky>
+
+
+
+    <!-- LIGHT -->
+
+    <a-entity
+
+      light="
+        type: directional;
+        intensity: 1.5
+      "
+
+      position="-10 20 10"
+
+    ></a-entity>
+
+
+    <a-entity
+
+      light="
+        type: ambient;
+        intensity: 1
+      "
+
+    ></a-entity>
+
+
+
+    <!-- PLAYER -->
+
+    <a-entity
+      id="player"
+      position="0 1.6 25"
+    >
+
+      <a-camera
+        id="camera"
+
+        look-controls="enabled: true"
+
+        wasd-controls="enabled: true"
+
+      ></a-camera>
+
+    </a-entity>
+
+
+
+    <!-- =====================
+         FOOTBALL FIELD
+    ====================== -->
+
+    <a-plane
+
+      rotation="-90 0 0"
+
+      width="100"
+
+      height="65"
+
+      color="#2e7d32"
+
       position="0 0 0"
-      look-controls
-      wasd-controls>
-    </a-camera>
+
+    ></a-plane>
+
+
+
+    <!-- CENTER LINE -->
+
+    <a-box
+
+      width="100"
+
+      height="0.05"
+
+      depth="0.2"
+
+      color="#ffffff"
+
+      position="0 0.03 0"
+
+    ></a-box>
+
+
+
+    <!-- CENTER CIRCLE -->
+
+    <a-ring
+
+      rotation="-90 0 0"
+
+      radius-inner="8.8"
+
+      radius-outer="9"
+
+      color="#ffffff"
+
+      position="0 0.04 0"
+
+    ></a-ring>
+
+
+
+    <!-- CENTER SPOT -->
+
+    <a-cylinder
+
+      radius="0.15"
+
+      height="0.05"
+
+      color="#ffffff"
+
+      position="0 0.05 0"
+
+    ></a-cylinder>
+
+
+
+    <!-- =====================
+         BALL
+    ====================== -->
+
+    <a-sphere
+
+      id="ball"
+
+      position="0 0.5 0"
+
+      radius="0.5"
+
+      color="#ffffff"
+
+    ></a-sphere>
+
+
+
+    <!-- =====================
+         NORTH GOAL
+    ====================== -->
 
     <a-entity
-      id="leftController"
-      laser-controls="hand: left">
+      position="0 0 -32"
+    >
 
-      <a-entity
-        id="leftFoot"
-        position="-0.25 -1.15 -0.6">
+      <!-- POSTS -->
 
-        <a-box
-          width="0.32"
-          height="0.18"
-          depth="0.65"
-          color="#e31919">
-        </a-box>
+      <a-box
+        position="-4 1.5 0"
+        width="0.2"
+        height="3"
+        depth="0.2"
+        color="#ffffff"
+      ></a-box>
 
-        <a-box
-          width="0.34"
-          height="0.06"
-          depth="0.68"
-          position="0 -0.12 0"
-          color="#111">
-        </a-box>
 
-      </a-entity>
+      <a-box
+        position="4 1.5 0"
+        width="0.2"
+        height="3"
+        depth="0.2"
+        color="#ffffff"
+      ></a-box>
+
+
+      <!-- CROSSBAR -->
+
+      <a-box
+        position="0 3 0"
+        width="8"
+        height="0.2"
+        depth="0.2"
+        color="#ffffff"
+      ></a-box>
 
     </a-entity>
 
 
+
+    <!-- =====================
+         SOUTH GOAL
+    ====================== -->
+
     <a-entity
-      id="rightController"
-      laser-controls="hand: right">
+      position="0 0 32"
+    >
 
-      <a-entity
-        id="rightFoot"
-        position="0.25 -1.15 -0.6">
+      <!-- POSTS -->
 
-        <a-box
-          width="0.32"
-          height="0.18"
-          depth="0.65"
-          color="#e31919">
-        </a-box>
+      <a-box
+        position="-4 1.5 0"
+        width="0.2"
+        height="3"
+        depth="0.2"
+        color="#ffffff"
+      ></a-box>
 
-        <a-box
-          width="0.34"
-          height="0.06"
-          depth="0.68"
-          position="0 -0.12 0"
-          color="#111">
-        </a-box>
 
-      </a-entity>
+      <a-box
+        position="4 1.5 0"
+        width="0.2"
+        height="3"
+        depth="0.2"
+        color="#ffffff"
+      ></a-box>
+
+
+      <!-- CROSSBAR -->
+
+      <a-box
+        position="0 3 0"
+        width="8"
+        height="0.2"
+        depth="0.2"
+        color="#ffffff"
+      ></a-box>
 
     </a-entity>
 
-  </a-entity>
 
 
-  <!-- PITCH -->
-  <a-plane
-    rotation="-90 0 0"
-    width="108"
-    height="68"
-    position="0 0 0"
-    color="#2f7d32">
-  </a-plane>
+    <!-- =====================
+         SIMPLE STANDS
+    ====================== -->
 
-  <!-- CENTER LINE -->
-  <a-box
-    width="108"
-    height="0.03"
-    depth="0.15"
-    position="0 0.02 0"
-    color="white">
-  </a-box>
+    <a-box
 
-  <!-- CENTER CIRCLE -->
-  <a-ring
-    rotation="-90 0 0"
-    radius-inner="9"
-    radius-outer="9.15"
-    position="0 0.025 0"
-    color="white">
-  </a-ring>
+      position="0 4 -40"
 
-  <!-- BALL -->
-  <a-sphere
-    id="ball"
-    position="0 0.42 0"
-    radius="0.42"
-    color="white">
-  </a-sphere>
+      width="110"
+
+      height="8"
+
+      depth="5"
+
+      color="#5b2a86"
+
+    ></a-box>
 
 
-  <!-- NORTH GOAL -->
-  <a-entity id="northGoal" position="0 0 -34">
+    <a-box
 
-    <a-box position="-3.6 1.15 0" width="0.15" height="2.3" depth="0.15" color="white"></a-box>
-    <a-box position="3.6 1.15 0" width="0.15" height="2.3" depth="0.15" color="white"></a-box>
-    <a-box position="0 2.3 0" width="7.2" height="0.15" depth="0.15" color="white"></a-box>
+      position="0 4 40"
 
-  </a-entity>
+      width="110"
 
+      height="8"
 
-  <!-- SOUTH GOAL -->
-  <a-entity id="southGoal" position="0 0 34">
+      depth="5"
 
-    <a-box position="-3.6 1.15 0" width="0.15" height="2.3" depth="0.15" color="white"></a-box>
-    <a-box position="3.6 1.15 0" width="0.15" height="2.3" depth="0.15" color="white"></a-box>
-    <a-box position="0 2.3 0" width="7.2" height="0.15" depth="0.15" color="white"></a-box>
+      color="#5b2a86"
 
-  </a-entity>
+    ></a-box>
 
 
-  <!-- SIMPLE STADIUM -->
-  <a-box
-    position="0 4 -42"
-    width="120"
-    height="8"
-    depth="5"
-    color="#54268f">
-  </a-box>
+    <a-box
 
-  <a-box
-    position="0 4 42"
-    width="120"
-    height="8"
-    depth="5"
-    color="#54268f">
-  </a-box>
+      position="-55 4 0"
 
-  <a-box
-    position="-60 4 0"
-    width="5"
-    height="8"
-    depth="85"
-    color="#54268f">
-  </a-box>
+      width="5"
 
-  <a-box
-    position="60 4 0"
-    width="5"
-    height="8"
-    depth="85"
-    color="#54268f">
-  </a-box>
+      height="8"
 
-</a-scene>
+      depth="85"
+
+      color="#5b2a86"
+
+    ></a-box>
 
 
-<script>
+    <a-box
 
-/* ===============================
-   TEAM SELECTION
-================================ */
+      position="55 4 0"
 
-const loadingScreen =
-  document.getElementById("loadingScreen");
+      width="5"
 
-const rig =
-  document.getElementById("rig");
+      height="8"
 
-const camera =
-  document.getElementById("camera");
+      depth="85"
 
+      color="#5b2a86"
 
-document
-  .getElementById("homeButton")
-  .addEventListener("click", function () {
-
-    rig.setAttribute(
-      "position",
-      "0 1.6 28"
-    );
-
-    rig.setAttribute(
-      "rotation",
-      "0 180 0"
-    );
-
-    loadingScreen.style.display =
-      "none";
-
-  });
+    ></a-box>
 
 
-document
-  .getElementById("awayButton")
-  .addEventListener("click", function () {
-
-    rig.setAttribute(
-      "position",
-      "0 1.6 -28"
-    );
-
-    rig.setAttribute(
-      "rotation",
-      "0 0 0"
-    );
-
-    loadingScreen.style.display =
-      "none";
-
-  });
+  </a-scene>
 
 
-/* ===============================
-   CONTROLLER FEET
-================================ */
 
-AFRAME.registerComponent(
-  "foot-follow",
-  {
+  <!-- =====================
+       GAME JAVASCRIPT
+  ====================== -->
 
-    schema: {
-      foot: {
-        type: "selector"
+  <script>
+
+    window.addEventListener(
+      "DOMContentLoaded",
+      function () {
+
+        const menu =
+          document.getElementById("menu");
+
+        const player =
+          document.getElementById("player");
+
+
+        document
+          .getElementById("home")
+          .addEventListener(
+            "click",
+            function () {
+
+              /*
+                Spawn on the SOUTH side
+                looking toward the ball.
+              */
+
+              player.setAttribute(
+                "position",
+                "0 1.6 25"
+              );
+
+              player.setAttribute(
+                "rotation",
+                "0 180 0"
+              );
+
+              menu.style.display =
+                "none";
+
+            }
+          );
+
+
+        document
+          .getElementById("away")
+          .addEventListener(
+            "click",
+            function () {
+
+              /*
+                Spawn on the NORTH side
+                looking toward the ball.
+              */
+
+              player.setAttribute(
+                "position",
+                "0 1.6 -25"
+              );
+
+              player.setAttribute(
+                "rotation",
+                "0 0 0"
+              );
+
+              menu.style.display =
+                "none";
+
+            }
+          );
+
       }
-    },
+    );
 
-    tick: function () {
+  </script>
 
-      if (!this.data.foot) return;
-
-      const controller =
-        this.el.object3D;
-
-      const foot =
-        this.data.foot.object3D;
-
-      foot.position.x =
-        controller.position.x;
-
-      foot.position.z =
-        controller.position.z - 0.6;
-
-    }
-
-  }
-);
-
-
-document
-  .getElementById("leftController")
-  .setAttribute(
-    "foot-follow",
-    "foot: #leftFoot"
-  );
-
-document
-  .getElementById("rightController")
-  .setAttribute(
-    "foot-follow",
-    "foot: #rightFoot"
-  );
-
-</script>
 
 </body>
 </html>
